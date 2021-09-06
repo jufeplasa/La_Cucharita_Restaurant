@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TableView layoutX="45.0" layoutY="85.0" prefHeight="294.0" prefWidth="511.0">
+              <columns>
+                <TableColumn prefWidth="150.0" text="Name" />
+                <TableColumn minWidth="0.0" prefWidth="142.0" text="ID" />
+                  <TableColumn prefWidth="218.0" text="Birthday" />
+              </columns>
+            </TableView>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="209.0" layoutY="33.0" prefHeight="40.0" prefWidth="182.0" text="Employees List" textAlignment="CENTER">
+               <font>
+                  <Font name="Cambria Math" size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</VBox>
