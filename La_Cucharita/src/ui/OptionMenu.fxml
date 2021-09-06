@@ -6,37 +6,38 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane prefHeight="420.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
-         <children>
-            <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0" style="-fx-background-color: orange;">
-              <menus>
-                <Menu mnemonicParsing="false" text="Employees">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Add an employee" />
-                        <MenuItem mnemonicParsing="false" text="Show employees list" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Inventory">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Menu">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-                  <Menu mnemonicParsing="false" text="Delivery">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
-                     </items>
-                  </Menu>
-              </menus>
-            </MenuBar>
-         </children>
-      </Pane>
+      <MenuBar prefHeight="25.0" prefWidth="600.0" style="-fx-background-color: orange;">
+        <menus>
+          <Menu mnemonicParsing="false" text="Employees">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#register" text="Add an employee" />
+                  <MenuItem mnemonicParsing="false" onAction="#showEmployeeList" text="Employees list" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Inventory">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Menu">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Delivery">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Exit">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#returnToLogin" text="Logout" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <Pane fx:id="mainPane" prefHeight="420.0" prefWidth="600.0" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>

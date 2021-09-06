@@ -15,8 +15,11 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Login.fxml"));
+		RestaurantGUI controller= new RestaurantGUI();
+		fxmlLoader.setController(controller);
 		Parent root = fxmlLoader.load();
 		Scene scene= new Scene(root);
+		controller.setMainStage(primaryStage);
 		primaryStage.setScene(scene);;
 		primaryStage.setTitle("Login window");
 		primaryStage.show();
