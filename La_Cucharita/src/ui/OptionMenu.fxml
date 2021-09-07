@@ -33,7 +33,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Exit">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#returnToLogin" text="Logout" />
+                  <MenuItem mnemonicParsing="false" onAction="#logout" text="Logout" />
                </items>
             </Menu>
         </menus>

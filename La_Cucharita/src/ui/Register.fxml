@@ -9,15 +9,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Orange;" VBox.vgrow="ALWAYS">
          <children>
-            <TextField layoutX="226.0" layoutY="132.0" />
-            <TextField layoutX="226.0" layoutY="175.0" />
-            <PasswordField layoutX="226.0" layoutY="223.0" />
-            <DatePicker layoutX="226.0" layoutY="271.0" />
+            <TextField fx:id="txtname" layoutX="226.0" layoutY="132.0" />
+            <TextField fx:id="txtId2" layoutX="226.0" layoutY="175.0" />
+            <PasswordField fx:id="txtpassword2" layoutX="226.0" layoutY="223.0" />
+            <DatePicker fx:id="datePicker" layoutX="226.0" layoutY="271.0" />
             <Label layoutX="132.0" layoutY="136.0" text="Name :" />
             <Label layoutX="132.0" layoutY="179.0" text="ID :" />
             <Label layoutX="132.0" layoutY="275.0" text="Birthday :" />
@@ -27,7 +26,8 @@
                   <Font name="Bookman Old Style" size="33.0" />
                </font>
             </Label>
-            <Button layoutX="271.0" layoutY="341.0" mnemonicParsing="false" text="Create count" />
+            <Button layoutX="170.0" layoutY="342.0" mnemonicParsing="false" onAction="#createAnEmployee" text="Create count" />
+            <Button layoutX="358.0" layoutY="342.0" mnemonicParsing="false" onAction="#back" text="Back" />
          </children>
       </Pane>
    </children>
