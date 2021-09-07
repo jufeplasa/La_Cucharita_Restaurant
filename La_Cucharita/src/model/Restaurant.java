@@ -21,5 +21,27 @@ public class Restaurant {
 		this.worker = worker;
 	}
 	
+	public boolean verification(String id, String password) {
+		boolean condition=false;
+		for(int i=0;i<worker.size()&!condition;i++) {
+			if(id.equalsIgnoreCase(worker.get(i).getId())&&password.equals(worker.get(i).getPassword())) {
+				condition=true;
+			}
+		}
+		return condition;
+	}
+	
+	public boolean addWorker(Employee newEmployee) {
+		for(int i=0;i<worker.size();i++) {
+			if(newEmployee.getId().equalsIgnoreCase(worker.get(i).getId())) {
+				return false;
+			}
+		}
+		if(worker.add(newEmployee)) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 }
