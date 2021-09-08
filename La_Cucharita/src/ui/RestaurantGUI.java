@@ -88,7 +88,7 @@ public class RestaurantGUI {
 	@FXML
 	public void loadLogIn() throws IOException {
 		
-		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
 		 fxmlLoader.setController(this);
 		 Parent root = fxmlLoader.load();
 		 mainPane.getChildren().clear();
@@ -108,12 +108,21 @@ public class RestaurantGUI {
 		if(condition) {
 			
 			setRegistered(true);
-			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
+			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 			fxmlLoader.setController(this);
+			Parent root= fxmlLoader.load();
+			FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("EmployeeList.fxml"));
+			fxmlLoader2.setController(this);
+			Parent root2= fxmlLoader2.load();
 			mainPane.getChildren().clear();
-			mainPane.setCenter(pane);
+			mainPane.setTop(root);
+			mainPane.setCenter(root2);
 			mainStage.close();
 			mainStage.show();
+			
+			
+			
+			
 		}
 		else {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -126,7 +135,7 @@ public class RestaurantGUI {
 
 	@FXML
 	public void register(ActionEvent Event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("register.fxml"));
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Register.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
 		mainPane.getChildren().clear();
@@ -139,7 +148,7 @@ public class RestaurantGUI {
 	@FXML
 	public void logout(ActionEvent event) throws IOException {
 		setRegistered(false);
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Login.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
 		Scene scene= new Scene(root);
@@ -149,24 +158,21 @@ public class RestaurantGUI {
 
 	@FXML
 	public void showEmployeeList(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("employeeList.fxml"));
-		fxmlLoader.setController(this);
-		Parent window= fxmlLoader.load();
-		pane.getChildren().setAll(window);
-		initializeTableView();
-		
-		/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("EmployeeList.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
 		mainPane.getChildren().clear();
 		mainPane.setCenter(root);
 		mainStage.close();
-		mainStage.show();*/
+		mainStage.show();		
+		initializeTableView();
+		
+		
 	}  
 	
 	@FXML
 	public void manageInventory(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("manageInventory.fxml"));
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageInventory.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
 		Scene scene= new Scene(root);
@@ -226,13 +232,26 @@ public class RestaurantGUI {
 			mainStage.setScene(scene);
 			mainStage.show();*/
 			
-			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
+			/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
 			mainPane.getChildren().clear();
 			mainPane.setCenter(root);
 			mainStage.close();
+			mainStage.show();*/
+			
+			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+			fxmlLoader.setController(this);
+			Parent root= fxmlLoader.load();
+			FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("EmployeeList.fxml"));
+			fxmlLoader2.setController(this);
+			Parent root2= fxmlLoader2.load();
+			mainPane.getChildren().clear();
+			mainPane.setTop(root);
+			mainPane.setCenter(root2);
+			mainStage.close();
 			mainStage.show();
+			
 		}
 		else {
 			/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
