@@ -17,9 +17,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Employee;
+import model.Ingredient;
 import model.Restaurant;
 
 public class RestaurantGUI {
@@ -27,7 +29,10 @@ public class RestaurantGUI {
 	private Stage mainStage;
 
 	@FXML
-	private Pane mainPane;
+	private Pane pane;
+	
+	@FXML
+    private BorderPane mainPane;
 
 	@FXML
 	private TextField txtId;
@@ -49,6 +54,9 @@ public class RestaurantGUI {
 	
     @FXML
     private TableView<Employee> tableView;
+    
+    @FXML
+    private TableView<Ingredient> ingredientsTable;
 
     @FXML
     private TableColumn<Employee, String> tcName;
@@ -78,17 +86,33 @@ public class RestaurantGUI {
 	}
 
 	@FXML
+	public void loadLogIn() throws IOException {
+		
+		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+		 fxmlLoader.setController(this);
+		 Parent root = fxmlLoader.load();
+		 mainPane.getChildren().clear();
+		 mainPane.setCenter(root);
+		 mainStage.close();
+		 mainStage.show();
+		
+		
+		
+	}
+	
+	@FXML
 	public void logIn(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 		String id= txtId.getText();
 		String password=passwordField.getText();
 		boolean condition=restaurant.verification(id, password);
 		if(condition) {
+			
 			setRegistered(true);
+			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
 			fxmlLoader.setController(this);
-			Parent root= fxmlLoader.load();
-			Scene scene= new Scene(root);
-			mainStage.setScene(scene);
+			mainPane.getChildren().clear();
+			mainPane.setCenter(pane);
+			mainStage.close();
 			mainStage.show();
 		}
 		else {
@@ -102,18 +126,20 @@ public class RestaurantGUI {
 
 	@FXML
 	public void register(ActionEvent Event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Register.fxml"));
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("register.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
-		Scene scene= new Scene(root);
-		mainStage.setScene(scene);
+		mainPane.getChildren().clear();
+		mainPane.setCenter(root);
+		mainStage.close();
 		mainStage.show();
+		
 	}
 
 	@FXML
 	public void logout(ActionEvent event) throws IOException {
 		setRegistered(false);
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Login.fxml"));
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
 		Scene scene= new Scene(root);
@@ -123,12 +149,33 @@ public class RestaurantGUI {
 
 	@FXML
 	public void showEmployeeList(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("EmployeeList.fxml"));
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("employeeList.fxml"));
 		fxmlLoader.setController(this);
 		Parent window= fxmlLoader.load();
-		mainPane.getChildren().setAll(window);
+		pane.getChildren().setAll(window);
 		initializeTableView();
+		
+		/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		mainPane.getChildren().clear();
+		mainPane.setCenter(root);
+		mainStage.close();
+		mainStage.show();*/
 	}  
+	
+	@FXML
+	public void manageInventory(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("manageInventory.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		Scene scene= new Scene(root);
+		mainStage.setScene(scene);
+		mainStage.show();
+		
+		
+	
+	   }
 
 	@FXML
 	public void createAnEmployee(ActionEvent event) {
@@ -172,20 +219,37 @@ public class RestaurantGUI {
 	@FXML
 	public void back(ActionEvent event) throws IOException {
 		if(isRegistered()) {
-			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+			/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
 			Scene scene= new Scene(root);
 			mainStage.setScene(scene);
+			mainStage.show();*/
+			
+			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
+			fxmlLoader.setController(this);
+			Parent root= fxmlLoader.load();
+			mainPane.getChildren().clear();
+			mainPane.setCenter(root);
+			mainStage.close();
 			mainStage.show();
 		}
 		else {
-			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Login.fxml"));
+			/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
 			Scene scene= new Scene(root);
 			mainStage.setScene(scene);
+			mainStage.show();*/
+			
+			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
+			fxmlLoader.setController(this);
+			Parent root= fxmlLoader.load();
+			mainPane.getChildren().clear();
+			mainPane.setCenter(root);
+			mainStage.close();
 			mainStage.show();
+			
 		}
 	}
 	

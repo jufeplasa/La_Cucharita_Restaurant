@@ -8,20 +8,27 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 	
+	private RestaurantGUI restaurantgui;
+	
+	public Main() {
+		restaurantgui = new RestaurantGUI();
+	}
 	public static void main(String [] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Login.fxml"));
-		RestaurantGUI controller= new RestaurantGUI();
-		fxmlLoader.setController(controller);
+		
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-pane.fxml"));
+		fxmlLoader.setController(restaurantgui);
 		Parent root = fxmlLoader.load();
-		Scene scene= new Scene(root);
-		controller.setMainStage(primaryStage);
-		primaryStage.setScene(scene);;
-		primaryStage.setTitle("Login window");
-		primaryStage.show();
+		restaurantgui.setMainStage(primaryStage);
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Restaurant");
+		restaurantgui.loadLogIn();
+		
+		
 	}
 }
