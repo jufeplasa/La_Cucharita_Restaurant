@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -77,7 +76,7 @@ public class RestaurantGUI {
 		restaurant= new Restaurant();
 	}
 	
-	public void initializeTableView() {
+	public void initializeTableViewEmployees() {
 		observableList= FXCollections.observableArrayList(restaurant.getWorker());
     	tableView.setItems(observableList);
     	tcName.setCellValueFactory(new PropertyValueFactory<Employee,String>("Name"));
@@ -111,7 +110,7 @@ public class RestaurantGUI {
 			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
-			FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("EmployeeList.fxml"));
+			FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("CoverPage.fxml"));
 			fxmlLoader2.setController(this);
 			Parent root2= fxmlLoader2.load();
 			mainPane.getChildren().clear();
@@ -119,10 +118,6 @@ public class RestaurantGUI {
 			mainPane.setCenter(root2);
 			mainStage.close();
 			mainStage.show();
-			
-			
-			
-			
 		}
 		else {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -151,8 +146,9 @@ public class RestaurantGUI {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Login.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
-		Scene scene= new Scene(root);
-		mainStage.setScene(scene);
+		mainPane.getChildren().clear();
+		mainPane.setCenter(root);
+		mainStage.close();
 		mainStage.show();
 	}
 
@@ -161,13 +157,15 @@ public class RestaurantGUI {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("EmployeeList.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
 		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
 		mainPane.setCenter(root);
 		mainStage.close();
 		mainStage.show();		
-		initializeTableView();
-		
-		
+		initializeTableViewEmployees();
 	}  
 	
 	@FXML
@@ -175,12 +173,14 @@ public class RestaurantGUI {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageInventory.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
-		Scene scene= new Scene(root);
-		mainStage.setScene(scene);
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
+		mainPane.setCenter(root);
+		mainStage.close();
 		mainStage.show();
-		
-		
-	
 	   }
 
 	@FXML
@@ -225,25 +225,11 @@ public class RestaurantGUI {
 	@FXML
 	public void back(ActionEvent event) throws IOException {
 		if(isRegistered()) {
-			/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("optionMenu.fxml"));
-			fxmlLoader.setController(this);
-			Parent root= fxmlLoader.load();
-			Scene scene= new Scene(root);
-			mainStage.setScene(scene);
-			mainStage.show();*/
-			
-			/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
-			fxmlLoader.setController(this);
-			Parent root= fxmlLoader.load();
-			mainPane.getChildren().clear();
-			mainPane.setCenter(root);
-			mainStage.close();
-			mainStage.show();*/
-			
+		
 			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
-			FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("EmployeeList.fxml"));
+			FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("CoverPage.fxml"));
 			fxmlLoader2.setController(this);
 			Parent root2= fxmlLoader2.load();
 			mainPane.getChildren().clear();
@@ -254,12 +240,6 @@ public class RestaurantGUI {
 			
 		}
 		else {
-			/*FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
-			fxmlLoader.setController(this);
-			Parent root= fxmlLoader.load();
-			Scene scene= new Scene(root);
-			mainStage.setScene(scene);
-			mainStage.show();*/
 			
 			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
 			fxmlLoader.setController(this);
@@ -268,7 +248,6 @@ public class RestaurantGUI {
 			mainPane.setCenter(root);
 			mainStage.close();
 			mainStage.show();
-			
 		}
 	}
 	

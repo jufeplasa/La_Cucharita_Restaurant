@@ -5,23 +5,19 @@ public class Ingredient {
 	private String name;
 	private double amount;
 	private String measure;
-	private int und;
 		
 	public Ingredient(String name, double amount, String measure) {
 		this.name = name;
 		this.amount = amount;
 		this.measure = measure;
-		
-		
 	}
 	
-	public Ingredient(String name, int und) {
-		this.name = name;
-		this.und = und;
-		
-		
-		
+	public void editAmount(double newAmount) {
+		double result;
+		result=amount+newAmount;
+		setAmount(result);
 	}
+	
 
 	public String getName() {
 		return name;
@@ -47,14 +43,6 @@ public class Ingredient {
 		this.measure = measure;
 	}
 
-	public int getUnd() {
-		return und;
-	}
-
-	public void setUnd(int und) {
-		this.und = und;
-	}
-	
 	
 	
 

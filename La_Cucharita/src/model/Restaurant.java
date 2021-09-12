@@ -7,6 +7,7 @@ import java.time.*;
 public class Restaurant {
 	
 	private List<Employee> worker;
+	private Inventory inventory;
 	
 	public Restaurant() {
 		setWorker(new ArrayList<Employee>());
@@ -41,6 +42,18 @@ public class Restaurant {
 			return true;
 		}
 		return false;
+	}
+	
+	public void addIngredients(String name, double amount, String measure) {
+		inventory.addIngrendient(name, amount, measure);
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 	
 	
