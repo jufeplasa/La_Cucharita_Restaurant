@@ -26,7 +26,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button layoutX="244.0" layoutY="343.0" mnemonicParsing="false" text="Manage inventory" />
+            <Button layoutX="244.0" layoutY="343.0" mnemonicParsing="false" onAction="#manageInventory" text="Manage inventory" />
          </children>
       </Pane>
    </children>

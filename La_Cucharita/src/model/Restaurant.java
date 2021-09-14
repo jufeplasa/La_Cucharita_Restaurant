@@ -41,20 +41,30 @@ public class Restaurant {
 	}
 
 	
-	public boolean addIngrendient(Ingredient newIngredient) {
-		boolean condition=false;
-		if (ingredients.add(newIngredient)) {
-			 condition=true;
-		}
-		/*for (int i=0; i<ingredients.size();i++) {
-			if (name.equalsIgnoreCase(ingredients.get(i).getName())&& measure.equalsIgnoreCase(ingredients.get(i).getMeasure())){
-				ingredients.get(i).editAmount(amount);
-				condition=false;
-				return condition;
+	public int addIngrendient(Ingredient newIngredient) {
+		int action=0;
+		boolean conti=true;
+		for(int i=0;i<ingredients.size()&&conti;i++) {
+			if(ingredients.get(i).getName().equalsIgnoreCase(newIngredient.getName())) {
+				ingredients.get(i).editAmount(newIngredient.getAmount());
+				ingredients.get(i).setMeasure(newIngredient.getMeasure());
+				conti=false;
+				action=1;
 			}
-		}*/
+		}
+		if (ingredients.add(newIngredient)&&conti) {
+			action=2;
+		}
 		
-		return condition;
+		return action;
+	}
+	
+	public void deleteIngredient(String nameIngredient) {
+		for(int i=0;i<ingredients.size();i++) {
+			if(ingredients.get(i).getName().equalsIgnoreCase(nameIngredient)) {
+				ingredients.remove(i);
+			}
+		}
 	}
 
 	public List<Employee> getWorker() {

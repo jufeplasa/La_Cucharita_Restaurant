@@ -1,6 +1,7 @@
 package ui;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
@@ -72,15 +74,9 @@ public class RestaurantGUI {
 
 	@FXML
 	private TableColumn<Ingredient, String> tbQuantityIngredient;
-	
+
 	@FXML
 	private ComboBox<String> cbIngredient;
-
-	@FXML
-	private TextField quantity2;
-
-
-	private String mr;
 
 	@FXML
 	private TextField ingredientName;
@@ -92,6 +88,10 @@ public class RestaurantGUI {
 	private ComboBox<String> cbMeasure;
 
 	private Restaurant restaurant;
+
+	private String mr;
+
+	private String ingredientSelect;
 
 
 	private boolean registered;
@@ -276,6 +276,7 @@ public class RestaurantGUI {
 		mainPane.setTop(root2);
 		mainPane.setCenter(root);
 		showOptions();
+		showOptionIngredients();
 		quantity.setText("0");
 	}
 
@@ -306,7 +307,15 @@ public class RestaurantGUI {
 			alert.setContentText("You have to complete all the information for add the ingredient");
 			alert.showAndWait();
 		}
-		if(restaurant.addIngrendient(new Ingredient(ingredient, amount, mr))) {
+		int option=restaurant.addIngrendient(new Ingredient(ingredient, amount, mr));
+		if (option==1) {
+			alert.setAlertType(AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Ingredient Update");
+			alert.setContentText("The ingredient has updated successfully");
+			alert.showAndWait();
+		}
+		else if(option==2) {
 			alert.setAlertType(AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("New ingredient added");
@@ -325,47 +334,45 @@ public class RestaurantGUI {
 			}       
 		});
 	}
-	
+
 	public void showOptionIngredients() {
 		ObservableList<String> items = FXCollections.observableArrayList();
 		for(int i=0;i<restaurant.getIngredients().size();i++) {
 			items.add(restaurant.getIngredients().get(i).getName());
 		}
 		cbIngredient.getItems().addAll(items);
-		cbMeasure.setOnAction(new EventHandler<ActionEvent>() {     
+		cbIngredient.setOnAction(new EventHandler<ActionEvent>() {     
 			public void handle(ActionEvent e)  {    
+				setIngredientSelect(cbIngredient.getValue());
 				
 			}       
 		});
 	}
 
-
 	@FXML
-	public void manageIngredients(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageIngredient.fxml"));
-		fxmlLoader.setController(this);
-		Parent root= fxmlLoader.load();
-		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
-		fxmlLoader2.setController(this);
-		Parent root2= fxmlLoader2.load();
-		mainPane.getChildren().clear();
-		mainPane.setTop(root2);
-		mainPane.setCenter(root);
-		showOptions();
-		showOptionIngredients();
+	public void deleteIngredient(ActionEvent event) {
+		Alert alert = new Alert(null);
+		if(ingredientSelect!=null) {
+			alert.setAlertType(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("You are going to delete an ingredient");
+			alert.setContentText("Are you ok with this?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				restaurant.deleteIngredient(ingredientSelect);
+				cbIngredient.setValue(null);
+			}
+		}
+		else {
+			alert.setAlertType(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("There isn't anything to delete");
+			alert.setContentText("Please select an ingredient to delete it");
+			alert.showAndWait();
+		}
 	}
-	
-    @FXML
-    public void deleteIngredient(ActionEvent event) {
 
-    }
 
-    @FXML
-    public void upgradeIngredient(ActionEvent event) {
-
-    }
-	
-	
 	public Stage getMainStage() {
 		return mainStage;
 	}
@@ -396,6 +403,14 @@ public class RestaurantGUI {
 
 	public void setMr(String mr) {
 		this.mr = mr;
+	}
+
+	public String getIngredientSelect() {
+		return ingredientSelect;
+	}
+
+	public void setIngredientSelect(String ingredientSelect) {
+		this.ingredientSelect = ingredientSelect;
 	}
 
 
