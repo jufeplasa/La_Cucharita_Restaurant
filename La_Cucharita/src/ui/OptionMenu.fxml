@@ -17,7 +17,9 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Inventory">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#manageInventory" text="Manage inventory" />
+              <MenuItem mnemonicParsing="false" onAction="#manageInventory" text="Add Ingredient" />
+                  <MenuItem mnemonicParsing="false" onAction="#showIngredientList" text="Ingredients List" />
+                  <MenuItem mnemonicParsing="false" onAction="#manageIngredients" text="Manage Inventory" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Menu">

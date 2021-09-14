@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="415.0" prefWidth="600.0">
          <children>
@@ -18,16 +17,16 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TableView layoutX="83.0" layoutY="100.0" prefHeight="201.0" prefWidth="434.0">
+            <TableView fx:id="tableViewInventory" layoutX="58.0" layoutY="78.0" prefHeight="245.0" prefWidth="485.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Name" />
-                <TableColumn prefWidth="75.0" text="Quantity" />
+                <TableColumn fx:id="tbNameIngredient" prefWidth="75.0" text="Name" />
+                <TableColumn fx:id="tbQuantityIngredient" prefWidth="75.0" text="Quantity" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button layoutX="244.0" layoutY="335.0" mnemonicParsing="false" text="Manage inventory" />
+            <Button layoutX="244.0" layoutY="343.0" mnemonicParsing="false" text="Manage inventory" />
          </children>
       </Pane>
    </children>

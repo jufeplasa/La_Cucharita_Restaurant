@@ -3,6 +3,7 @@ package model;
 public class Ingredient {
 	
 	private String name;
+	private String quantity;
 	private double amount;
 	private String measure;
 		
@@ -10,6 +11,7 @@ public class Ingredient {
 		this.name = name;
 		this.amount = amount;
 		this.measure = measure;
+		quantity=amount+" "+measure;
 	}
 	
 	public void editAmount(double newAmount) {
@@ -41,6 +43,14 @@ public class Ingredient {
 
 	public void setMeasure(String measure) {
 		this.measure = measure;
+	}
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
 	}
 
 	

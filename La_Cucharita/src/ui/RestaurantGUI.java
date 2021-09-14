@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.DatePicker;
@@ -17,95 +19,122 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Employee;
 import model.Ingredient;
 import model.Restaurant;
 
 public class RestaurantGUI {
-	
+
 	private Stage mainStage;
 
 	@FXML
-	private Pane pane;
-	
-	@FXML
-    private BorderPane mainPane;
+	public BorderPane mainPane;
 
 	@FXML
 	private TextField txtId;
-	
+
 	@FXML
-    private TextField txtname;
+	private TextField txtname;
 
-    @FXML
-    private TextField txtId2;
+	@FXML
+	private TextField txtId2;
 
-    @FXML
-    private PasswordField txtpassword2;
+	@FXML
+	private PasswordField txtpassword2;
 
-    @FXML
-    private DatePicker datePicker;
+	@FXML
+	private DatePicker datePicker;
 
 	@FXML
 	private PasswordField passwordField;
+
+	@FXML
+	private TableView<Employee> tableView;
+
+	@FXML
+	private TableView<Ingredient> ingredientsTable;
+
+	@FXML
+	private TableColumn<Employee, String> tcName;
+
+	@FXML
+	private TableColumn<Employee, String> tcID;
+
+	@FXML
+	private TableColumn<Employee, LocalDate> tcBirthday;
+
+	@FXML
+	private TableView<Ingredient> tableViewInventory;
+
+	@FXML
+	private TableColumn<Ingredient, String> tbNameIngredient;
+
+	@FXML
+	private TableColumn<Ingredient, String> tbQuantityIngredient;
 	
-    @FXML
-    private TableView<Employee> tableView;
-    
-    @FXML
-    private TableView<Ingredient> ingredientsTable;
+	@FXML
+	private ComboBox<String> cbIngredient;
 
-    @FXML
-    private TableColumn<Employee, String> tcName;
+	@FXML
+	private TextField quantity2;
 
-    @FXML
-    private TableColumn<Employee, String> tcID;
 
-    @FXML
-    private TableColumn<Employee, LocalDate> tcBirthday;
-	
+	private String mr;
+
+	@FXML
+	private TextField ingredientName;
+
+	@FXML
+	private TextField quantity;
+
+	@FXML
+	private ComboBox<String> cbMeasure;
+
 	private Restaurant restaurant;
-	
-	private ObservableList<Employee> observableList;
-	
+
+
 	private boolean registered;
-	
+
 	public RestaurantGUI() {
 		restaurant= new Restaurant();
 	}
-	
+
 	public void initializeTableViewEmployees() {
+		ObservableList<Employee> observableList;
 		observableList= FXCollections.observableArrayList(restaurant.getWorker());
-    	tableView.setItems(observableList);
-    	tcName.setCellValueFactory(new PropertyValueFactory<Employee,String>("Name"));
-    	tcID.setCellValueFactory(new PropertyValueFactory<Employee,String>("Id"));
-    	tcBirthday.setCellValueFactory(new PropertyValueFactory<Employee,LocalDate>("Birthday"));
+		tableView.setItems(observableList);
+		tcName.setCellValueFactory(new PropertyValueFactory<Employee,String>("Name"));
+		tcID.setCellValueFactory(new PropertyValueFactory<Employee,String>("Id"));
+		tcBirthday.setCellValueFactory(new PropertyValueFactory<Employee,LocalDate>("Birthday"));
+	}
+
+	public void initializeTableViewIngredients() {
+		ObservableList<Ingredient> observableList;
+		observableList= FXCollections.observableArrayList(restaurant.getIngredients());
+		tableViewInventory.setItems(observableList);
+		tbNameIngredient.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("Name"));
+		tbQuantityIngredient.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("quantity"));
 	}
 
 	@FXML
 	public void loadLogIn() throws IOException {
-		
-		 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
-		 fxmlLoader.setController(this);
-		 Parent root = fxmlLoader.load();
-		 mainPane.getChildren().clear();
-		 mainPane.setCenter(root);
-		 mainStage.close();
-		 mainStage.show();
-		
-		
-		
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		mainPane.getChildren().clear();
+		mainPane.setCenter(root);
+		mainStage.close();
+		mainStage.show();
 	}
-	
+
 	@FXML
 	public void logIn(ActionEvent event) throws IOException {
 		String id= txtId.getText();
 		String password=passwordField.getText();
 		boolean condition=restaurant.verification(id, password);
 		if(condition) {
-			
+
 			setRegistered(true);
 			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 			fxmlLoader.setController(this);
@@ -128,6 +157,7 @@ public class RestaurantGUI {
 		}
 	}
 
+
 	@FXML
 	public void register(ActionEvent Event) throws IOException {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Register.fxml"));
@@ -137,7 +167,6 @@ public class RestaurantGUI {
 		mainPane.setCenter(root);
 		mainStage.close();
 		mainStage.show();
-		
 	}
 
 	@FXML
@@ -167,21 +196,6 @@ public class RestaurantGUI {
 		mainStage.show();		
 		initializeTableViewEmployees();
 	}  
-	
-	@FXML
-	public void manageInventory(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageInventory.fxml"));
-		fxmlLoader.setController(this);
-		Parent root= fxmlLoader.load();
-		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
-		fxmlLoader2.setController(this);
-		Parent root2= fxmlLoader2.load();
-		mainPane.getChildren().clear();
-		mainPane.setTop(root2);
-		mainPane.setCenter(root);
-		mainStage.close();
-		mainStage.show();
-	   }
 
 	@FXML
 	public void createAnEmployee(ActionEvent event) {
@@ -220,12 +234,12 @@ public class RestaurantGUI {
 			}
 		}
 
-    }
-	
+	}
+
 	@FXML
 	public void back(ActionEvent event) throws IOException {
 		if(isRegistered()) {
-		
+
 			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
@@ -237,10 +251,9 @@ public class RestaurantGUI {
 			mainPane.setCenter(root2);
 			mainStage.close();
 			mainStage.show();
-			
 		}
 		else {
-			
+
 			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
@@ -250,8 +263,109 @@ public class RestaurantGUI {
 			mainStage.show();
 		}
 	}
-	
 
+	@FXML
+	public void manageInventory(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageInventory.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
+		mainPane.setCenter(root);
+		showOptions();
+		quantity.setText("0");
+	}
+
+	@FXML
+	public void showIngredientList(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Inventory.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
+		mainPane.setCenter(root);
+		initializeTableViewIngredients();
+	}
+
+	@FXML
+	public void addIngredient(ActionEvent event) {
+		Alert alert=new Alert(null);
+		double amount=0;
+		String ingredient=ingredientName.getText();
+		amount=Double.parseDouble(quantity.getText());
+		if(ingredient==null||amount==0||mr==null) {
+			alert.setAlertType(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("You have not complete the register");
+			alert.setContentText("You have to complete all the information for add the ingredient");
+			alert.showAndWait();
+		}
+		if(restaurant.addIngrendient(new Ingredient(ingredient, amount, mr))) {
+			alert.setAlertType(AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("New ingredient added");
+			alert.setContentText("The ingredient has added successfully");
+			alert.showAndWait();
+		}
+	}
+
+	public void showOptions() {
+		ObservableList<String> items = FXCollections.observableArrayList();
+		items.addAll("ml","g","kg","unds");
+		cbMeasure.getItems().addAll(items);
+		cbMeasure.setOnAction(new EventHandler<ActionEvent>() {     
+			public void handle(ActionEvent e)  {    
+				setMr(cbMeasure.getValue()+"");
+			}       
+		});
+	}
+	
+	public void showOptionIngredients() {
+		ObservableList<String> items = FXCollections.observableArrayList();
+		for(int i=0;i<restaurant.getIngredients().size();i++) {
+			items.add(restaurant.getIngredients().get(i).getName());
+		}
+		cbIngredient.getItems().addAll(items);
+		cbMeasure.setOnAction(new EventHandler<ActionEvent>() {     
+			public void handle(ActionEvent e)  {    
+				
+			}       
+		});
+	}
+
+
+	@FXML
+	public void manageIngredients(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageIngredient.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
+		mainPane.setCenter(root);
+		showOptions();
+		showOptionIngredients();
+	}
+	
+    @FXML
+    public void deleteIngredient(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void upgradeIngredient(ActionEvent event) {
+
+    }
+	
+	
 	public Stage getMainStage() {
 		return mainStage;
 	}
@@ -276,15 +390,13 @@ public class RestaurantGUI {
 		this.registered = registered;
 	}
 
-	public ObservableList<Employee> getObservableList() {
-		return observableList;
+	public String getMr() {
+		return mr;
 	}
 
-	public void setObservablelist(ObservableList<Employee> observableList) {
-		this.observableList = observableList;
+	public void setMr(String mr) {
+		this.mr = mr;
 	}
-	
-
 
 
 }
