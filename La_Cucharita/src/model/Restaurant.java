@@ -8,10 +8,13 @@ public class Restaurant {
 	
 	private List<Employee> worker;
 	private List <Ingredient> ingredients;
+	private List<Dish> menu;
+	
 	
 	public Restaurant() {
 		setWorker(new ArrayList<Employee>());
 		ingredients= new ArrayList<Ingredient>();
+		menu = new ArrayList<Dish>();
 
 		ingredients.add(new Ingredient("Lentejas",800,"g"));
 		worker.add(new Employee("juan","contraseña","123456",LocalDate.of(2002, 03, 23)));
@@ -66,6 +69,43 @@ public class Restaurant {
 			}
 		}
 	}
+	
+	public boolean createCombo(String name, boolean isAdded) {
+		for(int i=0; i<menu.size() && isAdded==false; i++) {
+			if(name.equals(menu.get(i).getName())){
+				isAdded = true;				
+			}					
+		}
+		if(isAdded==false) {
+			int price = 0;
+			ArrayList<Ingredient> ingredientsC = new ArrayList<>();
+			menu.add(new Dish(name, price, ingredientsC ));
+			
+		}
+		
+		
+		return isAdded;
+		
+	}
+	
+	public void addCombo(String name, String ingredient, String quantity, String measure ) {
+		boolean found = false;
+		int position = 0;
+		for(int i=0; i<menu.size() && found==false; i++) {
+			if(name.equals(menu.get(i).getName())){
+				found = true;
+				position = i;								
+			}					
+		}
+		Double quantity2 = Double.parseDouble(quantity);
+		List <Ingredient> ingredientsList = menu.get(position).getIngredients();
+		Ingredient newIngredient = new Ingredient(ingredient, quantity2, measure);
+		ingredientsList.add(newIngredient);
+		
+		
+		
+				
+	}
 
 	public List<Employee> getWorker() {
 		return worker;
@@ -82,6 +122,7 @@ public class Restaurant {
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
+	
 	
 	
 }

@@ -8,16 +8,14 @@ public class Dish {
 	private List<Ingredient> ingredients;
 	
 	private String name;
-	private String amount;
 	private int price;
 	
 	
 	
-	public Dish(String name, String amount, int price) {
+	public Dish(String name, int price, ArrayList<Ingredient>ingredients) {
 		
 		ingredients = new ArrayList<Ingredient>();
 		this.name = name;
-		this.amount = amount;
 		this.price = price;
 		
 		
@@ -48,20 +46,7 @@ public class Dish {
 		this.name = name;
 	}
 
-
-
-	public String getAmount() {
-		return amount;
-	}
-
-
-
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
-
-
-
+	
 	public int getPrice() {
 		return price;
 	}
