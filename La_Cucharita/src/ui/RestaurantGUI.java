@@ -77,6 +77,10 @@ public class RestaurantGUI {
 
 	@FXML
 	private ComboBox<String> cbIngredient;
+	
+
+	@FXML
+	private ComboBox<String> cbIngredient2;
 
 	@FXML
 	private TextField ingredientName;
@@ -98,12 +102,6 @@ public class RestaurantGUI {
 
     @FXML
     private TextField quantityCombo;
-
-    @FXML
-    private ComboBox<String> listIngredient;
-    
-    @FXML
-    private ComboBox<String> listMeasure;
 
 	private boolean registered;
 
@@ -288,9 +286,8 @@ public class RestaurantGUI {
 		mainPane.setCenter(root);
 		mainStage.close();
 		mainStage.show();
-		showOptions();
+		showMeasureOptions();
 		showOptionIngredients();
-		quantity.setText("0");
 	}
 
 	@FXML
@@ -315,7 +312,7 @@ public class RestaurantGUI {
 		double amount=0;
 		String ingredient=ingredientName.getText();
 		amount=Double.parseDouble(quantity.getText());
-		if(ingredient==null||amount==0||mr==null) {
+		if(ingredient.isEmpty()||amount==0||mr==null) {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText("You have not complete the register");
@@ -330,6 +327,9 @@ public class RestaurantGUI {
 				alert.setHeaderText("Ingredient Update");
 				alert.setContentText("The ingredient has updated successfully");
 				alert.showAndWait();
+				ingredientName.setText(null);
+				quantity.setText(null);
+				cbMeasure.setValue(null);
 			}
 			else if(option==2) {
 				alert.setAlertType(AlertType.INFORMATION);
@@ -337,12 +337,15 @@ public class RestaurantGUI {
 				alert.setHeaderText("New ingredient added");
 				alert.setContentText("The ingredient has added successfully");
 				alert.showAndWait();
+				ingredientName.setText(null);
+				quantity.setText(null);
+				cbMeasure.setValue(null);
 			}
 		}
 	}
 		
 
-	public void showOptions() {
+	public void showMeasureOptions() {
 		ObservableList<String> items = FXCollections.observableArrayList();
 		items.addAll("ml","g","kg","unds");
 		cbMeasure.getItems().addAll(items);
@@ -362,6 +365,19 @@ public class RestaurantGUI {
 		cbIngredient.setOnAction(new EventHandler<ActionEvent>() {     
 			public void handle(ActionEvent e)  {    
 				setIngredientSelect(cbIngredient.getValue());
+				ingredientName.setText(cbIngredient.getValue());
+			}       
+		});
+	}
+	
+	public void showOptionIngredients2() {
+		ObservableList<String> items = FXCollections.observableArrayList();
+		for(int i=0;i<restaurant.getIngredients().size();i++) {
+			items.add(restaurant.getIngredients().get(i).getName());
+		}
+		cbIngredient2.getItems().addAll(items);
+		cbIngredient2.setOnAction(new EventHandler<ActionEvent>() {     
+			public void handle(ActionEvent e)  { 
 				
 			}       
 		});
@@ -402,10 +418,8 @@ public class RestaurantGUI {
 		mainPane.setCenter(root);
 		mainStage.close();
 		mainStage.show();
-		
-		
-		
-
+		showMeasureOptions();
+		showOptionIngredients2();
 	}
 	
 	
@@ -447,8 +461,6 @@ public class RestaurantGUI {
 			}
 
 		}
-			
-
 	}
 
 	@FXML
@@ -462,9 +474,9 @@ public class RestaurantGUI {
 			alert.setContentText("We need to verify if this combo exist");
 			alert.showAndWait();
 		}else {
-			String ingredientC = listIngredient.getValue();
+			String ingredientC = cbIngredient2.getValue();
 			String quantityC = quantityCombo.getText();
-			String measureC = listMeasure.getValue();			
+			String measureC = cbMeasure.getValue();			
 			boolean isAdded = false;
 			isAdded = restaurant.createCombo(name, isAdded);
 			restaurant.addCombo(name, ingredientC, quantityC, measureC);
@@ -473,15 +485,9 @@ public class RestaurantGUI {
 				alert.setTitle("Confirmation");
 				alert.setHeaderText("The combo with the name: "+name+" has been created succesfully.");
 				alert.setContentText("Now you have to fill the other fields.");
-				alert.showAndWait();		
-
+				alert.showAndWait();	
 			}
-
 		}
-		
-		
-		
-
 
 	}
 

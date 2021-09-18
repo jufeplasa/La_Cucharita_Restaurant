@@ -52,11 +52,11 @@ public class Restaurant {
 				ingredients.get(i).editAmount(newIngredient.getAmount());
 				ingredients.get(i).setMeasure(newIngredient.getMeasure());
 				conti=false;
-				action=1;
+				return 1;
 			}
 		}
 		if (ingredients.add(newIngredient)&&conti) {
-			action=2;
+			return 2;
 		}
 		
 		return action;

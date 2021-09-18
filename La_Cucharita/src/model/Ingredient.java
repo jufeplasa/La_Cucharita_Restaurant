@@ -15,9 +15,8 @@ public class Ingredient {
 	}
 	
 	public void editAmount(double newAmount) {
-		double result;
-		result=amount+newAmount;
-		setAmount(result);
+		amount+=newAmount;
+		setQuantity(amount+" "+measure);
 	}
 	
 
