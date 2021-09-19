@@ -88,7 +88,7 @@ public class Restaurant {
 		
 	}
 	
-	public void addCombo(String name, String ingredient, String quantity, String measure ) {
+	public void addCombo(String name, String ingredient, double quantity, String measure ) {
 		boolean found = false;
 		int position = 0;
 		for(int i=0; i<menu.size() && found==false; i++) {
@@ -97,9 +97,8 @@ public class Restaurant {
 				position = i;								
 			}					
 		}
-		Double quantity2 = Double.parseDouble(quantity);
 		List <Ingredient> ingredientsList = menu.get(position).getIngredients();
-		Ingredient newIngredient = new Ingredient(ingredient, quantity2, measure);
+		Ingredient newIngredient = new Ingredient(ingredient, quantity, measure);
 		ingredientsList.add(newIngredient);
 		
 		

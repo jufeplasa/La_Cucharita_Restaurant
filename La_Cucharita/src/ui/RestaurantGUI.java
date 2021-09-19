@@ -475,7 +475,7 @@ public class RestaurantGUI {
 			alert.showAndWait();
 		}else {
 			String ingredientC = cbIngredient2.getValue();
-			String quantityC = quantityCombo.getText();
+			Double quantityC = Double.parseDouble(quantityCombo.getText());
 			String measureC = cbMeasure.getValue();			
 			boolean isAdded = false;
 			isAdded = restaurant.createCombo(name, isAdded);
@@ -483,9 +483,12 @@ public class RestaurantGUI {
 			if(isAdded==false) {
 				alert.setAlertType(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation");
-				alert.setHeaderText("The combo with the name: "+name+" has been created succesfully.");
-				alert.setContentText("Now you have to fill the other fields.");
+				alert.setHeaderText("Ingredient added succesfully to "+name);
+				alert.setContentText("If you need to add more ingredients please continue filling the fields.");
 				alert.showAndWait();	
+				cbIngredient2.setValue("");
+				quantityCombo.setText("");
+				cbMeasure.setValue("");
 			}
 		}
 

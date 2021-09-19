@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="600.0" style="-fx-background-color: orange;">
+        <menus>
+          <Menu mnemonicParsing="false" text="Employees">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#register" text="Add an employee" />
+                  <MenuItem mnemonicParsing="false" onAction="#showEmployeeList" text="Employees list" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Inventory">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#manageInventory" text="Manage Inventory" />
+                  <MenuItem mnemonicParsing="false" onAction="#showIngredientList" text="Ingredients List" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Menu">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#manageCombos" text="Create Combo" />
+                  <MenuItem mnemonicParsing="false" onAction="#showComboList" text="Show Combo´s List" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Delivery">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Exit">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#logout" text="Logout" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</VBox>
