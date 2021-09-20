@@ -70,20 +70,16 @@ public class Restaurant {
 		}
 	}
 	
-	public boolean createCombo(String name, boolean isAdded) {
+	public boolean createCombo(String name,double price ,boolean isAdded) {
 		for(int i=0; i<menu.size() && isAdded==false; i++) {
 			if(name.equals(menu.get(i).getName())){
 				isAdded = true;				
 			}					
 		}
 		if(isAdded==false) {
-			int price = 0;
-			ArrayList<Ingredient> ingredientsC = new ArrayList<>();
-			menu.add(new Dish(name, price, ingredientsC ));
+			menu.add(new Dish(name, price));
 			
 		}
-		
-		
 		return isAdded;
 		
 	}
@@ -97,13 +93,7 @@ public class Restaurant {
 				position = i;								
 			}					
 		}
-		List <Ingredient> ingredientsList = menu.get(position).getIngredients();
-		Ingredient newIngredient = new Ingredient(ingredient, quantity, measure);
-		ingredientsList.add(newIngredient);
-		
-		
-		
-				
+		menu.get(position).addRecipe(ingredient, quantity, measure);
 	}
 
 	public List<Employee> getWorker() {

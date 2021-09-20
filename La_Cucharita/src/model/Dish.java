@@ -5,33 +5,37 @@ import java.util.List;
 
 public class Dish {
 	
-	private List<Ingredient> ingredients;
+	private List<Ingredient> recipe;
 	
 	private String name;
-	private int price;
+	private double price;
 	
 	
 	
-	public Dish(String name, int price, ArrayList<Ingredient>ingredients) {
+	public Dish(String name, double price) {
 		
-		ingredients = new ArrayList<Ingredient>();
+		recipe= new ArrayList<Ingredient>();
 		this.name = name;
 		this.price = price;
 		
 		
 		
 	}
-
-
-
-	public List<Ingredient> getIngredients() {
-		return ingredients;
+	
+	public void addRecipe(String ingredient, double quantity, String measure ) {
+		recipe.add(new Ingredient(ingredient, quantity,  measure));
 	}
 
 
 
-	public void setIngredients(List<Ingredient> ingredients) {
-		this.ingredients = ingredients;
+	public List<Ingredient> getRecipe() {
+		return recipe;
+	}
+
+
+
+	public void setRecipe(List<Ingredient> recipe) {
+		this.recipe = recipe;
 	}
 
 
@@ -47,13 +51,13 @@ public class Dish {
 	}
 
 	
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
 
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	

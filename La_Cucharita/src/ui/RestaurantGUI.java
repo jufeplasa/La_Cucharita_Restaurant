@@ -87,6 +87,9 @@ public class RestaurantGUI {
 
 	@FXML
 	private TextField quantity;
+	
+    @FXML
+    private TextField txtPrice;
 
 	@FXML
 	private ComboBox<String> cbMeasure;
@@ -262,7 +265,6 @@ public class RestaurantGUI {
 			mainStage.show();
 		}
 		else {
-
 			FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("login.fxml"));
 			fxmlLoader.setController(this);
 			Parent root= fxmlLoader.load();
@@ -432,7 +434,9 @@ public class RestaurantGUI {
 	
 	@FXML
 	public void createCombo(ActionEvent event) {
+		double price=0;
 		String name = comboName.getText();
+		price = Double.parseDouble(txtPrice.getText());
 		Alert alert = new Alert(null);
 		
 		if(name.isEmpty()) {
@@ -443,7 +447,7 @@ public class RestaurantGUI {
 			alert.showAndWait();
 		}else {
 			boolean isAdded = false;
-			isAdded = restaurant.createCombo(name, isAdded);
+			isAdded = restaurant.createCombo(name, price, isAdded);
 			if(isAdded==false) {
 				alert.setAlertType(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation");
@@ -464,10 +468,12 @@ public class RestaurantGUI {
 	}
 
 	@FXML
-	public void addIngredientsAndQuantity(ActionEvent event) {		
+	public void addIngredientsAndQuantity(ActionEvent event) {
+		double price=0;
 		String name = comboName.getText();
+		price = Double.parseDouble(txtPrice.getText());
 		Alert alert = new Alert(null);		
-		if(name.isEmpty()) {
+		if(name.isEmpty()&&price==0) {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText("Please enter the name of the combo");
@@ -478,7 +484,7 @@ public class RestaurantGUI {
 			Double quantityC = Double.parseDouble(quantityCombo.getText());
 			String measureC = cbMeasure.getValue();			
 			boolean isAdded = false;
-			isAdded = restaurant.createCombo(name, isAdded);
+			isAdded = restaurant.createCombo(name, price, isAdded);
 			restaurant.addCombo(name, ingredientC, quantityC, measureC);
 			if(isAdded==false) {
 				alert.setAlertType(AlertType.CONFIRMATION);
