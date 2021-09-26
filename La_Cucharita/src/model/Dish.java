@@ -22,8 +22,8 @@ public class Dish {
 		
 	}
 	
-	public void addRecipe(String ingredient, double quantity, String measure ) {
-		recipe.add(new Ingredient(ingredient, quantity,  measure));
+	public boolean addRecipe(String ingredient, double quantity, String measure ) {
+		return recipe.add(new Ingredient(ingredient, quantity,  measure));
 	}
 
 

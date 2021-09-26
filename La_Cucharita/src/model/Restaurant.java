@@ -84,16 +84,23 @@ public class Restaurant {
 		
 	}
 	
-	public void addCombo(String name, String ingredient, double quantity, String measure ) {
-		boolean found = false;
+	public boolean addRecipe(String name, String ingredient, double quantity, String measure ) {
+		boolean found = true;
 		int position = 0;
-		for(int i=0; i<menu.size() && found==false; i++) {
+		
+		for(int i=0; i<menu.size() && found; i++) {
 			if(name.equals(menu.get(i).getName())){
-				found = true;
+				found = false;
 				position = i;								
 			}					
 		}
-		menu.get(position).addRecipe(ingredient, quantity, measure);
+		
+		for(int i=0; i<menu.get(position).getRecipe().size();i++) {
+			if(menu.get(position).getRecipe().get(i).getName().equals(ingredient)) {
+				return false;
+			}
+		}
+		return menu.get(position).addRecipe(ingredient, quantity, measure);
 	}
 
 	public List<Employee> getWorker() {

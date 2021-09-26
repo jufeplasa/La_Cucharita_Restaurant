@@ -77,7 +77,7 @@ public class RestaurantGUI {
 
 	@FXML
 	private ComboBox<String> cbIngredient;
-	
+
 
 	@FXML
 	private ComboBox<String> cbIngredient2;
@@ -87,9 +87,9 @@ public class RestaurantGUI {
 
 	@FXML
 	private TextField quantity;
-	
-    @FXML
-    private TextField txtPrice;
+
+	@FXML
+	private TextField txtPrice;
 
 	@FXML
 	private ComboBox<String> cbMeasure;
@@ -99,17 +99,20 @@ public class RestaurantGUI {
 	private String mr;
 
 	private String ingredientSelect;
-	
-	@FXML
-    private TextField comboName;
 
-    @FXML
-    private TextField quantityCombo;
+	@FXML
+	private TextField comboName;
+
+	@FXML
+	private TextField quantityCombo;
 
 	private boolean registered;
+	
+	private boolean comboCreated;
 
 	public RestaurantGUI() {
 		restaurant= new Restaurant();
+		comboCreated = false;
 	}
 
 	public void initializeTableViewEmployees() {
@@ -309,7 +312,7 @@ public class RestaurantGUI {
 	}
 
 	@FXML
-	public void addIngredient(ActionEvent event) {
+	public void addIngredient(ActionEvent event) throws IOException {
 		Alert alert=new Alert(null);
 		double amount=0;
 		String ingredient=ingredientName.getText();
@@ -332,6 +335,7 @@ public class RestaurantGUI {
 				ingredientName.setText(null);
 				quantity.setText(null);
 				cbMeasure.setValue(null);
+				manageInventory(event);
 			}
 			else if(option==2) {
 				alert.setAlertType(AlertType.INFORMATION);
@@ -342,10 +346,10 @@ public class RestaurantGUI {
 				ingredientName.setText(null);
 				quantity.setText(null);
 				cbMeasure.setValue(null);
+				manageInventory(event);
 			}
 		}
 	}
-		
 
 	public void showMeasureOptions() {
 		ObservableList<String> items = FXCollections.observableArrayList();
@@ -371,7 +375,7 @@ public class RestaurantGUI {
 			}       
 		});
 	}
-	
+
 	public void showOptionIngredients2() {
 		ObservableList<String> items = FXCollections.observableArrayList();
 		for(int i=0;i<restaurant.getIngredients().size();i++) {
@@ -380,13 +384,13 @@ public class RestaurantGUI {
 		cbIngredient2.getItems().addAll(items);
 		cbIngredient2.setOnAction(new EventHandler<ActionEvent>() {     
 			public void handle(ActionEvent e)  { 
-				
+
 			}       
 		});
 	}
 
 	@FXML
-	public void deleteIngredient(ActionEvent event) {
+	public void deleteIngredient(ActionEvent event) throws IOException {
 		Alert alert = new Alert(null);
 		if(ingredientSelect!=null) {
 			alert.setAlertType(AlertType.CONFIRMATION);
@@ -397,6 +401,7 @@ public class RestaurantGUI {
 			if (result.get() == ButtonType.OK){
 				restaurant.deleteIngredient(ingredientSelect);
 				cbIngredient.setValue(null);
+				manageInventory(event);
 			}
 		}
 		else {
@@ -407,6 +412,7 @@ public class RestaurantGUI {
 			alert.showAndWait();
 		}
 	}
+
 	@FXML
 	public void manageCombos(ActionEvent event) throws IOException {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Combos.fxml"));
@@ -423,45 +429,51 @@ public class RestaurantGUI {
 		showMeasureOptions();
 		showOptionIngredients2();
 	}
-	
-	
-	
+
+
+
 	@FXML
 	public void showComboList(ActionEvent event) {
 
 	}
 
-	
+
 	@FXML
 	public void createCombo(ActionEvent event) {
-		double price=0;
 		String name = comboName.getText();
-		price = Double.parseDouble(txtPrice.getText());
 		Alert alert = new Alert(null);
-		
-		if(name.isEmpty()) {
+		if(comboCreated) {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
-			alert.setHeaderText("Please enter the name of the combo");
-			alert.setContentText("You have to complete all the information for add the combo");
+			alert.setHeaderText("There are dish in progress");
+			alert.setContentText("First end the progress to create a new dish");
 			alert.showAndWait();
-		}else {
+		}
+		else if(name.isEmpty()||txtPrice.getText().isEmpty()) {
+			alert.setAlertType(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("Please enter the informatio of the dish");
+			alert.setContentText("You have to complete all the information for add the dish");
+			alert.showAndWait();
+		}
+		else {
 			boolean isAdded = false;
+			double price = Double.parseDouble(txtPrice.getText());
 			isAdded = restaurant.createCombo(name, price, isAdded);
 			if(isAdded==false) {
-				alert.setAlertType(AlertType.CONFIRMATION);
+				alert.setAlertType(AlertType.INFORMATION);
 				alert.setTitle("Confirmation");
-				alert.setHeaderText("The combo with the name: "+name+" has been created succesfully.");
+				alert.setHeaderText("The dish with the name: "+name+" has been created succesfully.");
 				alert.setContentText("Now you have to fill the other fields.");
-				alert.showAndWait();		
-
-			}else {
+				alert.showAndWait();	
+				setComboCreated(true);
+			}
+			else {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setTitle("Error Dialog");
-				alert.setHeaderText("This combo already exist.");
+				alert.setHeaderText("This dish already exist.");
 				alert.setContentText("Please change the name.");
 				alert.showAndWait();
-				
 			}
 
 		}
@@ -469,46 +481,64 @@ public class RestaurantGUI {
 
 	@FXML
 	public void addIngredientsAndQuantity(ActionEvent event) {
-		double price=0;
 		String name = comboName.getText();
-		price = Double.parseDouble(txtPrice.getText());
 		Alert alert = new Alert(null);		
-		if(name.isEmpty()&&price==0) {
+		if(!comboCreated) {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
-			alert.setHeaderText("Please enter the name of the combo");
-			alert.setContentText("We need to verify if this combo exist");
+			alert.setHeaderText("Please star a new dish");
+			alert.setContentText("To add an ingredient, first it must there be a dish created");
 			alert.showAndWait();
-		}else {
-			String ingredientC = cbIngredient2.getValue();
-			Double quantityC = Double.parseDouble(quantityCombo.getText());
-			String measureC = cbMeasure.getValue();			
-			boolean isAdded = false;
-			isAdded = restaurant.createCombo(name, price, isAdded);
-			restaurant.addCombo(name, ingredientC, quantityC, measureC);
-			if(isAdded==false) {
-				alert.setAlertType(AlertType.CONFIRMATION);
-				alert.setTitle("Confirmation");
-				alert.setHeaderText("Ingredient added succesfully to "+name);
-				alert.setContentText("If you need to add more ingredients please continue filling the fields.");
-				alert.showAndWait();	
-				cbIngredient2.setValue("");
-				quantityCombo.setText("");
-				cbMeasure.setValue("");
+		}
+		else {
+			if(cbIngredient2.getValue().isEmpty()||quantityCombo.getText().isEmpty()||cbMeasure.getValue().isEmpty()) {
+				alert.setAlertType(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("Please star a new dish");
+				alert.setContentText("To add an ingredient, first it must there be a dish created");
+				alert.showAndWait();
+			}
+			else {
+				String ingredientC = cbIngredient2.getValue();
+				Double quantityC = Double.parseDouble(quantityCombo.getText());
+				String measureC = cbMeasure.getValue();
+				if(restaurant.addRecipe(name, ingredientC, quantityC, measureC)) {
+					alert.setAlertType(AlertType.INFORMATION);
+					alert.setTitle("Confirmation");
+					alert.setHeaderText("Ingredient "+ingredientC+" added succesfully to "+name);
+					alert.setContentText("If you need to add more ingredients please continue filling the fields.");
+					alert.showAndWait();	
+					cbIngredient2.setValue(null);
+					quantityCombo.setText("");
+					cbMeasure.setValue(null);
+				}
+				else {
+					alert.setAlertType(AlertType.WARNING);
+					alert.setTitle("Warning Dialog");
+					alert.setHeaderText("The ingredient is already in the dish");
+					alert.setContentText("Add other ingredient or ends the creation of the dish");
+					alert.showAndWait();
+				}
 			}
 		}
-
 	}
-
-	
 
 	@FXML
-	public void finishCreationCombo(ActionEvent event) {
+	public void finishCreationCombo(ActionEvent event) throws IOException {
 
+		Alert alert = new Alert(null);
+	
+		alert.setAlertType(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("You are going to delete an ingredient");
+		alert.setContentText("Are you ok with this?");
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+			restaurant.deleteIngredient(ingredientSelect);
+			cbIngredient.setValue(null);
+			manageInventory(event);
+		}
 	}
-
-	
-	
 
 	public Stage getMainStage() {
 		return mainStage;
@@ -548,6 +578,14 @@ public class RestaurantGUI {
 
 	public void setIngredientSelect(String ingredientSelect) {
 		this.ingredientSelect = ingredientSelect;
+	}
+
+	public boolean isComboCreated() {
+		return comboCreated;
+	}
+
+	public void setComboCreated(boolean comboCreated) {
+		this.comboCreated = comboCreated;
 	}
 
 
