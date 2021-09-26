@@ -9,6 +9,7 @@ public class Restaurant {
 	private List<Employee> worker;
 	private List <Ingredient> ingredients;
 	private List<Dish> menu;
+	private List<Delivery> deliveries;
 	
 	
 	
@@ -16,7 +17,8 @@ public class Restaurant {
 		setWorker(new ArrayList<Employee>());
 		ingredients= new ArrayList<Ingredient>();
 		menu = new ArrayList<Dish>();
-
+		deliveries = new ArrayList<Delivery>();
+		
 		ingredients.add(new Ingredient("Lentejas",800,"g"));
 		worker.add(new Employee("juan","contraseña","123456",LocalDate.of(2002, 03, 23)));
 	}
@@ -115,6 +117,34 @@ public class Restaurant {
 		}
 		return menu.get(position).addRecipe(ingredient, quantity, measure);
 	}
+	
+	public String addOrderToDelivery(String nameDish, String code) {
+		boolean found = false;
+		String message="";
+		Dish newdish = null;
+				
+		message=findOrders(code);
+		return message;
+	}
+	
+	public String findOrders(String code) {
+		String message="";
+		boolean found=false;
+		int position=0;
+		for(int i=0; i<deliveries.size() && !found; i++) {
+			if(code.equals(deliveries.get(i).getCode())){
+				found = true;
+				position = i;								
+			}					
+		}
+		
+		for(int i=0; i<deliveries.get(position).getOrder().size();i++) {
+			message+=deliveries.get(position).getOrder().get(i).getName()+"_ _ _ _ _ _ _ _ _ "+deliveries.get(position).getOrder().get(i).getCost()+"\n";
+
+			System.out.println(message);
+		}
+		return message;
+	}
 
 	public List<Employee> getWorker() {
 		return worker;
@@ -135,6 +165,16 @@ public class Restaurant {
 
 	public List<Dish> getMenu() {
 		return menu;
+	}
+
+
+	public List<Delivery> getDeliveries() {
+		return deliveries;
+	}
+
+
+	public void setDeliveries(List<Delivery> deliveries) {
+		this.deliveries = deliveries;
 	}
 	
 	

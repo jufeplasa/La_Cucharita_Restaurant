@@ -1,24 +1,33 @@
 package model;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Delivery {
 	
+	private List<Dish> order;
+	
 	private String code;
 	private int amount;
-	private LocalDate date;
+	private Calendar date;
 	private State deliveryState;
 	
 	
-	public Delivery(String code, int amount, LocalDate date, State deliveryState) {
+	public Delivery(Dish newdish, String code) {
 		this.code = code;
-		this.amount = amount;
-		this.date = date;
-		this.deliveryState = deliveryState;
-		
+		/*this.amount = amount; 
+		this.deliveryState = deliveryState;*/
+		order=new ArrayList<Dish>();
+		addOrder(newdish);
+		setDate(GregorianCalendar.getInstance());
 	}
 
-
+	public void addOrder(Dish newdish) {
+		order.add(newdish);
+	}
+	
 	public String getCode() {
 		return code;
 	}
@@ -39,14 +48,6 @@ public class Delivery {
 	}
 
 
-	public LocalDate getDate() {
-		return date;
-	}
-
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
 
 
 	public State getDeliveryState() {
@@ -57,11 +58,27 @@ public class Delivery {
 	public void setDeliveryState(State deliveryState) {
 		this.deliveryState = deliveryState;
 	}
-	
-	
-		
-		
-		
+
+
+	public List<Dish> getOrder() {
+		return order;
+	}
+
+
+	public void setOrder(List<Dish> order) {
+		this.order = order;
+	}
+
+
+	public Calendar getDate() {
+		return date;
+	}
+
+
+	public void setDate(Calendar date) {
+		this.date = date;
+	}
+
 }
 	
 

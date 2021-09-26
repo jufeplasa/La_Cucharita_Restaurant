@@ -94,7 +94,7 @@ public class RestaurantGUI {
 
 	@FXML
 	private ComboBox<String> cbMeasure;
-	
+
 	private Restaurant restaurant;
 
 	private String mr;
@@ -112,36 +112,44 @@ public class RestaurantGUI {
 
 	@FXML
 	private TextField newPassword;
-	
+
 	@FXML
-    private TableView<Dish> combosTable;
-	
+	private TableView<Dish> combosTable;
+
 	@FXML
 	private TableColumn<Dish, String> nameCb;
 
 	@FXML
-	private TableColumn<Dish, String> priceCb;
-	
-	@FXML
-    private ComboBox<String> combosBox;
-	
-	private String comboSelect;
-	
-	@FXML
-    private Label orderInformation;
+	private TableColumn<Dish, String> tbRecipe;
 
- 	private boolean registered;
-	
+	@FXML
+	private TableColumn<Dish, String> priceCb;
+
+	@FXML
+	private ComboBox<String> combosBox;
+
+	private String comboSelect;
+
+	@FXML
+	private Label orderInformation;
+
+	private boolean registered;
+
 	private boolean comboCreated;
-	
+
 	private String idR;
-	
+
 	private String password;
-	
-	
+
+	private String dishName;
+
+	String deliveryCode;
+
+	private boolean deliveryCreated;
+
+
 	public RestaurantGUI() {
 		restaurant= new Restaurant();
-		comboCreated = false;
 	}
 
 	public void initializeTableViewEmployees() {
@@ -281,7 +289,7 @@ public class RestaurantGUI {
 
 	}
 	@FXML
-    public void changePassword(ActionEvent event) throws IOException {
+	public void changePassword(ActionEvent event) throws IOException {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
@@ -294,39 +302,36 @@ public class RestaurantGUI {
 		mainStage.close();
 		mainStage.show();
 
-    }
-	
+	}
 
-    @FXML
-    public void changePasswordMethod(ActionEvent event) {
-    	Alert alert=new Alert(null);    	
-    	String oldPass = currentPassword.getText();
-    	String newPass = newPassword.getText();
-    	boolean done = false;
-    	if(password.equals(oldPass)) {
-    		done = restaurant.changePassword(idR, newPass);
-    		if(done) {
-    			alert.setAlertType(AlertType.INFORMATION);
-    			alert.setTitle("Information Dialog");
-    			alert.setHeaderText("The password has been changed");
-    			alert.setContentText("Information updated successfully");
-    			alert.showAndWait();
-    		}
-    		
-    		
-     	}else {
-     		alert.setAlertType(AlertType.ERROR);
+
+	@FXML
+	public void changePasswordMethod(ActionEvent event) {
+		Alert alert=new Alert(null);    	
+		String oldPass = currentPassword.getText();
+		String newPass = newPassword.getText();
+		boolean done = false;
+		if(password.equals(oldPass)) {
+			done = restaurant.changePassword(idR, newPass);
+			if(done) {
+				alert.setAlertType(AlertType.INFORMATION);
+				alert.setTitle("Information Dialog");
+				alert.setHeaderText("The password has been changed");
+				alert.setContentText("Information updated successfully");
+				alert.showAndWait();
+			}
+
+
+		}else {
+			alert.setAlertType(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText("The current password is not correct");
 			alert.setContentText("Please verify this field");
 			alert.showAndWait();
-     	}
-     		
-     		
-    	
-    	
+		}
 
-    }
+
+	}
 	@FXML
 	public void back(ActionEvent event) throws IOException {
 		if(isRegistered()) {
@@ -367,6 +372,7 @@ public class RestaurantGUI {
 		mainPane.setCenter(root);
 		mainStage.close();
 		mainStage.show();
+		comboCreated = false;
 		showMeasureOptions();
 		showOptionIngredients();
 	}
@@ -390,10 +396,9 @@ public class RestaurantGUI {
 	@FXML
 	public void addIngredient(ActionEvent event) throws IOException {
 		Alert alert=new Alert(null);
-		double amount=0;
+		double amount;
 		String ingredient=ingredientName.getText();
-		amount=Double.parseDouble(quantity.getText());
-		if(ingredient.isEmpty()||amount==0||mr==null) {
+		if(ingredient.isEmpty()||quantity.getText().isEmpty()||mr==null) {
 			alert.setAlertType(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText("You have not complete the register");
@@ -401,6 +406,7 @@ public class RestaurantGUI {
 			alert.showAndWait();
 		}
 		else {
+			amount=Double.parseDouble(quantity.getText());
 			int option=restaurant.addIngrendient(new Ingredient(ingredient, amount, mr));
 			if (option==1) {
 				alert.setAlertType(AlertType.INFORMATION);
@@ -511,7 +517,8 @@ public class RestaurantGUI {
 		observableList= FXCollections.observableArrayList(restaurant.getMenu());
 		combosTable.setItems(observableList);
 		nameCb.setCellValueFactory(new PropertyValueFactory<Dish, String>("Name"));
-		priceCb.setCellValueFactory(new PropertyValueFactory<Dish, String>("Price"));
+		tbRecipe.setCellValueFactory(new PropertyValueFactory<Dish, String>("Ingredients"));
+		priceCb.setCellValueFactory(new PropertyValueFactory<Dish, String>("Cost"));
 	}
 
 	@FXML
@@ -528,9 +535,6 @@ public class RestaurantGUI {
 		mainStage.close();
 		mainStage.show();
 		initializeTableViewCombos();
-		
-		
-
 	}
 
 
@@ -590,8 +594,8 @@ public class RestaurantGUI {
 			if(cbIngredient2.getValue().isEmpty()||quantityCombo.getText().isEmpty()||cbMeasure.getValue().isEmpty()) {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setTitle("Error Dialog");
-				alert.setHeaderText("Please star a new dish");
-				alert.setContentText("To add an ingredient, first it must there be a dish created");
+				alert.setHeaderText("There are spaces in blank");
+				alert.setContentText("To add an ingredient, you must filling the fields.");
 				alert.showAndWait();
 			}
 			else {
@@ -621,62 +625,79 @@ public class RestaurantGUI {
 
 	@FXML
 	public void finishCreationCombo(ActionEvent event) throws IOException {
-
 		Alert alert = new Alert(null);
-	
 		alert.setAlertType(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("You are going to delete an ingredient");
+		alert.setHeaderText("You are going to finish the creation of a dish");
 		alert.setContentText("Are you ok with this?");
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			restaurant.deleteIngredient(ingredientSelect);
-			cbIngredient.setValue(null);
-			manageInventory(event);
+			comboCreated=false;
+			comboName.setText("");
+			txtPrice.setText("");
+			cbIngredient2.setValue(null);
+			quantityCombo.setText("");
+			cbMeasure.setValue(null);
 		}
 	}
-	
-	 @FXML
-	 public void createOrder(ActionEvent event) throws IOException {
-		 FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Order.fxml"));
-		 fxmlLoader.setController(this);
-		 Parent root= fxmlLoader.load();
-		 FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
-		 fxmlLoader2.setController(this);
-		 Parent root2= fxmlLoader2.load();
-		 mainPane.getChildren().clear();
-		 mainPane.setTop(root2);
-		 mainPane.setCenter(root);
-		 mainStage.close();
-		 mainStage.show();
 
-	 }
-	 
-	 public void showOptionsDishes() {
-		 ObservableList<String> items = FXCollections.observableArrayList();
-			for(int i=0;i<restaurant.getMenu().size();i++) {
-				items.add(restaurant.getMenu().get(i).getName());
-			}
-			combosBox.getItems().addAll(items);
-			combosBox.setOnAction(new EventHandler<ActionEvent>() {     
-				public void handle(ActionEvent e)  {    
-					setComboSelect(combosBox.getValue());
-					orderInformation.setText(combosBox.getValue());
-					
-				}       
-			});
-		 
-	 }
-	 
-	 @FXML
-	 public void addToOrder(ActionEvent event) {
+	@FXML
+	public void createOrder(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Order.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
+		mainPane.setCenter(root);
+		mainStage.close();
+		mainStage.show();
+		deliveryCreated=false;
+		showOptionsDishes();
+	}
 
-	 }
+	public void showOptionsDishes() {
+		ObservableList<String> items = FXCollections.observableArrayList();
+		for(int i=0;i<restaurant.getMenu().size();i++) {
+			items.add(restaurant.getMenu().get(i).getName());
+		}
+		combosBox.getItems().addAll(items);
+		combosBox.setOnAction(new EventHandler<ActionEvent>() {     
+			public void handle(ActionEvent e)  {    
+				setDishName(combosBox.getValue());
+			}       
+		});
 
-	 @FXML
-	 public void deleteFromOrder(ActionEvent event) {
+	}
+	// private String dishName;
 
-	 }
+	//private boolean deliveryCreated;
+	@FXML
+	public void addToOrder(ActionEvent event) {
+		String message="";
+		while(!deliveryCreated) {
+			 int value= (int) Math.floor(Math.random()*1000+100);
+			deliveryCode="A00"+value;
+			System.out.print(deliveryCode);
+			deliveryCreated=true;
+		}
+		message= restaurant.addOrderToDelivery(dishName, deliveryCode);
+
+		System.out.print(deliveryCode);
+		orderInformation.setText(message);
+	}
+
+	@FXML
+	public void deleteFromOrder(ActionEvent event) {
+
+	}
+
+	@FXML
+	public void finalizeDeliveryCreation(ActionEvent event) {
+
+	}
 
 	public Stage getMainStage() {
 		return mainStage;
@@ -733,12 +754,21 @@ public class RestaurantGUI {
 	public void setComboSelect(String comboSelect) {
 		this.comboSelect = comboSelect;
 	}
-	
-	
-	
-	
-	
-	
 
+	public String getDishName() {
+		return dishName;
+	}
+
+	public void setDishName(String dishName) {
+		this.dishName = dishName;
+	}
+
+	public boolean isDeliveryCreated() {
+		return deliveryCreated;
+	}
+
+	public void setDeliveryCreated(boolean deliveryCreated) {
+		this.deliveryCreated = deliveryCreated;
+	}
 
 }
