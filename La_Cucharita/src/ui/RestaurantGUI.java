@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -120,6 +121,14 @@ public class RestaurantGUI {
 
 	@FXML
 	private TableColumn<Dish, String> priceCb;
+	
+	@FXML
+    private ComboBox<String> combosBox;
+	
+	private String comboSelect;
+	
+	@FXML
+    private Label orderInformation;
 
  	private boolean registered;
 	
@@ -626,6 +635,48 @@ public class RestaurantGUI {
 			manageInventory(event);
 		}
 	}
+	
+	 @FXML
+	 public void createOrder(ActionEvent event) throws IOException {
+		 FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Order.fxml"));
+		 fxmlLoader.setController(this);
+		 Parent root= fxmlLoader.load();
+		 FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		 fxmlLoader2.setController(this);
+		 Parent root2= fxmlLoader2.load();
+		 mainPane.getChildren().clear();
+		 mainPane.setTop(root2);
+		 mainPane.setCenter(root);
+		 mainStage.close();
+		 mainStage.show();
+
+	 }
+	 
+	 public void showOptionsDishes() {
+		 ObservableList<String> items = FXCollections.observableArrayList();
+			for(int i=0;i<restaurant.getMenu().size();i++) {
+				items.add(restaurant.getMenu().get(i).getName());
+			}
+			combosBox.getItems().addAll(items);
+			combosBox.setOnAction(new EventHandler<ActionEvent>() {     
+				public void handle(ActionEvent e)  {    
+					setComboSelect(combosBox.getValue());
+					orderInformation.setText(combosBox.getValue());
+					
+				}       
+			});
+		 
+	 }
+	 
+	 @FXML
+	 public void addToOrder(ActionEvent event) {
+
+	 }
+
+	 @FXML
+	 public void deleteFromOrder(ActionEvent event) {
+
+	 }
 
 	public Stage getMainStage() {
 		return mainStage;
@@ -674,6 +725,20 @@ public class RestaurantGUI {
 	public void setComboCreated(boolean comboCreated) {
 		this.comboCreated = comboCreated;
 	}
+
+	public String getComboSelect() {
+		return comboSelect;
+	}
+
+	public void setComboSelect(String comboSelect) {
+		this.comboSelect = comboSelect;
+	}
+	
+	
+	
+	
+	
+	
 
 
 }
