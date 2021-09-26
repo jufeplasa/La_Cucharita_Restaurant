@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.Dish;
 import model.Employee;
 import model.Ingredient;
 import model.Restaurant;
@@ -78,7 +79,6 @@ public class RestaurantGUI {
 	@FXML
 	private ComboBox<String> cbIngredient;
 
-
 	@FXML
 	private ComboBox<String> cbIngredient2;
 
@@ -93,7 +93,7 @@ public class RestaurantGUI {
 
 	@FXML
 	private ComboBox<String> cbMeasure;
-
+	
 	private Restaurant restaurant;
 
 	private String mr;
@@ -106,10 +106,30 @@ public class RestaurantGUI {
 	@FXML
 	private TextField quantityCombo;
 
-	private boolean registered;
+	@FXML
+	private TextField currentPassword;
+
+	@FXML
+	private TextField newPassword;
+	
+	@FXML
+    private TableView<Dish> combosTable;
+	
+	@FXML
+	private TableColumn<Dish, String> nameCb;
+
+	@FXML
+	private TableColumn<Dish, String> priceCb;
+
+ 	private boolean registered;
 	
 	private boolean comboCreated;
-
+	
+	private String idR;
+	
+	private String password;
+	
+	
 	public RestaurantGUI() {
 		restaurant= new Restaurant();
 		comboCreated = false;
@@ -145,9 +165,9 @@ public class RestaurantGUI {
 
 	@FXML
 	public void logIn(ActionEvent event) throws IOException {
-		String id= txtId.getText();
-		String password=passwordField.getText();
-		boolean condition=restaurant.verification(id, password);
+		idR = txtId.getText();
+		password=passwordField.getText();
+		boolean condition=restaurant.verification(idR, password);
 		if(condition) {
 
 			setRegistered(true);
@@ -186,6 +206,7 @@ public class RestaurantGUI {
 
 	@FXML
 	public void logout(ActionEvent event) throws IOException {
+		idR = "";
 		setRegistered(false);
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("Login.fxml"));
 		fxmlLoader.setController(this);
@@ -250,7 +271,53 @@ public class RestaurantGUI {
 		}
 
 	}
+	@FXML
+    public void changePassword(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root);
+		mainPane.setCenter(root2);
+		mainStage.close();
+		mainStage.show();
 
+    }
+	
+
+    @FXML
+    public void changePasswordMethod(ActionEvent event) {
+    	Alert alert=new Alert(null);    	
+    	String oldPass = currentPassword.getText();
+    	String newPass = newPassword.getText();
+    	boolean done = false;
+    	if(password.equals(oldPass)) {
+    		done = restaurant.changePassword(idR, newPass);
+    		if(done) {
+    			alert.setAlertType(AlertType.INFORMATION);
+    			alert.setTitle("Information Dialog");
+    			alert.setHeaderText("The password has been changed");
+    			alert.setContentText("Information updated successfully");
+    			alert.showAndWait();
+    		}
+    		
+    		
+     	}else {
+     		alert.setAlertType(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("The current password is not correct");
+			alert.setContentText("Please verify this field");
+			alert.showAndWait();
+     	}
+     		
+     		
+    	
+    	
+
+    }
 	@FXML
 	public void back(ActionEvent event) throws IOException {
 		if(isRegistered()) {
@@ -430,10 +497,30 @@ public class RestaurantGUI {
 		showOptionIngredients2();
 	}
 
-
+	public void initializeTableViewCombos() {
+		ObservableList<Dish> observableList;
+		observableList= FXCollections.observableArrayList(restaurant.getMenu());
+		combosTable.setItems(observableList);
+		nameCb.setCellValueFactory(new PropertyValueFactory<Dish, String>("Name"));
+		priceCb.setCellValueFactory(new PropertyValueFactory<Dish, String>("Price"));
+	}
 
 	@FXML
-	public void showComboList(ActionEvent event) {
+	public void showComboList(ActionEvent event) throws IOException {		
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("CombosList.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
+		mainPane.setCenter(root);
+		mainStage.close();
+		mainStage.show();
+		initializeTableViewCombos();
+		
+		
 
 	}
 

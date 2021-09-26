@@ -13,6 +13,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#register" text="Add an employee" />
                   <MenuItem mnemonicParsing="false" onAction="#showEmployeeList" text="Employees list" />
+                  <MenuItem mnemonicParsing="false" onAction="#changePassword" text="Change Password" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Inventory">

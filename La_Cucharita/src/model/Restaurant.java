@@ -11,6 +11,7 @@ public class Restaurant {
 	private List<Dish> menu;
 	
 	
+	
 	public Restaurant() {
 		setWorker(new ArrayList<Employee>());
 		ingredients= new ArrayList<Ingredient>();
@@ -26,9 +27,21 @@ public class Restaurant {
 		for(int i=0;i<worker.size()&!condition;i++) {
 			if(id.equalsIgnoreCase(worker.get(i).getId())&&password.equals(worker.get(i).getPassword())) {
 				condition=true;
+								
 			}
 		}
 		return condition;
+	}
+	
+	public boolean changePassword(String idR, String password) {
+		boolean done = false;
+		for(int i=0; i<worker.size()&!done; i++) {
+			if(idR.equalsIgnoreCase(worker.get(i).getId())) {
+				worker.get(i).setPassword(password);
+				done = true;
+			}
+		}
+		return done;
 	}
 	
 	public boolean addWorker(Employee newEmployee) {
@@ -118,6 +131,13 @@ public class Restaurant {
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
+
+
+	public List<Dish> getMenu() {
+		return menu;
+	}
+	
+	
 	
 	
 	
