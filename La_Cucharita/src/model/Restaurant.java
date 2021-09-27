@@ -18,12 +18,13 @@ public class Restaurant {
 	public static final String DATA_MENU="data/dishes.menu";
 	public static final String DATA_DELIVERIES="data/deliveries.order";
 	public static final String EMPLOYEES_REPORT="data/employeesReport.txt";
+	public static final String DISHES_REPORT="data/dishesReport.txt";
 	
 	private List<Employee> worker;
 	private List <Ingredient> ingredients;
 	private List<Dish> menu;
 	private List<Delivery> deliveries;
-	private Delivery actualDelivery = null;
+	private List<Dish> actualDelivery;
 	
 	
 	
@@ -31,6 +32,7 @@ public class Restaurant {
 		setWorker(new ArrayList<Employee>());
 		ingredients= new ArrayList<Ingredient>();
 		menu = new ArrayList<Dish>();
+		actualDelivery= new ArrayList<Dish>();
 		deliveries = new ArrayList<Delivery>();
 		ingredients.add(new Ingredient("Lentejas",800,"g"));
 		worker.add(new Employee("juan","contraseña","123456",LocalDate.of(2002, 03, 23)));
@@ -113,11 +115,20 @@ public class Restaurant {
 	}
 	
 
-	public void exportData() throws IOException {
+	public void exportEmployeesReport() throws IOException {
 		FileWriter fw = new FileWriter(EMPLOYEES_REPORT, false);
 		for(int i=0; i<worker.size();i++) {
 			Employee myWorker= worker.get(i);
 			fw.write(myWorker.generateReport()+"\n");
+		}
+		
+		fw.close();
+	}
+	public void exportDishesReport() throws IOException {
+		FileWriter fw = new FileWriter(DISHES_REPORT, false);
+		for(int i=0; i<menu.size();i++) {
+			Dish myDish= menu.get(i);
+			fw.write(myDish.generateReport()+"\n");
 		}
 		fw.close();
 	}
@@ -200,10 +211,10 @@ public class Restaurant {
 		
 	}
 	
-	public boolean addRecipe(String name, String ingredient, double quantity, String measure ) {
+	public boolean addRecipe(String name, String ingredient, double quantity ) {
 		boolean found = true;
 		int position = 0;
-		
+		String measure="";
 		for(int i=0; i<menu.size() && found; i++) {
 			if(name.equals(menu.get(i).getName())){
 				found = false;
@@ -211,8 +222,15 @@ public class Restaurant {
 			}					
 		}
 		
+		for(int i=0;i<ingredients.size();i++) {
+			if(ingredients.get(i).getName().equalsIgnoreCase(ingredient)) {
+				measure=ingredients.get(i).getMeasure();
+			}
+		}
+		
 		for(int i=0; i<menu.get(position).getRecipe().size();i++) {
 			if(menu.get(position).getRecipe().get(i).getName().equals(ingredient)) {
+				
 				return false;
 			}
 		}
@@ -224,17 +242,16 @@ public class Restaurant {
 		boolean found = false;
 		boolean canAdd = false;
 		
-		Dish dish = null;
+		Dish dish=null;
 		for(int i=0; i<menu.size() && !found; i++) {
 			if(name.equals(menu.get(i).getName())){
 				found = true;
 				dish = menu.get(i);
-				
 			}					
 		}
 		if(verifyAmount(dish)) {
 			canAdd = true;
-			actualDelivery.addOrder(dish);
+			actualDelivery.add(dish);
 			
 		}else {
 			canAdd = false;
@@ -246,15 +263,17 @@ public class Restaurant {
 	public boolean verifyAmount(Dish comboName) {
 		
 		boolean done = true;
+		double num=0;
 		for(int i=0; i<comboName.getRecipe().size()&&done; i++) {
 			for(int j=0; j<ingredients.size(); j++) {
 				if((comboName.getRecipe().get(i).getName().equalsIgnoreCase(ingredients.get(j).getName()))){
-					double num = ((ingredients.get(i).getAmount())-(comboName.getRecipe().get(j).getAmount()));
+					num = ((ingredients.get(j).getAmount())-(comboName.getRecipe().get(i).getAmount()));
 					if(num<0) {
 						done = false;
 
-					}else {
-						ingredients.get(i).setAmount((ingredients.get(i).getAmount())-(comboName.getRecipe().get(j).getAmount()));
+					}
+					else {
+						ingredients.get(j).setAmount(num);
 					}
 				}
 			}
@@ -276,7 +295,9 @@ public class Restaurant {
 		for(int i=0; i<dish.getRecipe().size()&&deleted; i++) {
 			for(int j=0; j<ingredients.size(); j++) {
 				if((dish.getRecipe().get(i).getName().equalsIgnoreCase(ingredients.get(j).getName()))){
-					ingredients.get(i).setAmount((ingredients.get(i).getAmount())+(dish.getRecipe().get(j).getAmount()));
+					ingredients.get(j).setAmount((ingredients.get(j).getAmount())+(dish.getRecipe().get(i).getAmount()));
+
+					System.out.println("Entre al condicional"+dish.getName());
 					deleted = true;		
 					
 				}
@@ -289,7 +310,7 @@ public class Restaurant {
 	
 	public int addToDelivery(int deliveryNum, String value) {		
 		int newNum = 0;
-		deliveries.add(deliveryNum, getActualDelivery());
+		deliveries.get(deliveryNum).addOrder(getActualDelivery());
 		deliveries.get(deliveryNum).setCode(value);
 		newNum++;
 		return newNum;
@@ -359,7 +380,7 @@ public class Restaurant {
 	}
 
 
-	public Delivery getActualDelivery() {
+	public List<Dish> getActualDelivery() {
 		return actualDelivery;
 	}
 	

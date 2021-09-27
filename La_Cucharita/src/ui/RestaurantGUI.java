@@ -145,20 +145,20 @@ public class RestaurantGUI {
 	private String dishName;
 
 	String deliveryCode;
-	
+
 	private int deliveryNum = 0;
 
 	private boolean deliveryCreated;
-	
-	@FXML
-    private ComboBox<String> cbDeliverys;
 
-    @FXML
-    private ComboBox<String> cbStates;
-    
-    private String cbCode;
-    
-    private String cbState;
+	@FXML
+	private ComboBox<String> cbDeliverys;
+
+	@FXML
+	private ComboBox<String> cbStates;
+
+	private String cbCode;
+
+	private String cbState;
 
 
 	public RestaurantGUI() {
@@ -324,26 +324,35 @@ public class RestaurantGUI {
 		String oldPass = currentPassword.getText();
 		String newPass = newPassword.getText();
 		boolean done = false;
-		if(password.equals(oldPass)) {
-			done = restaurant.changePassword(idR, newPass);
-			if(done) {
-				alert.setAlertType(AlertType.INFORMATION);
-				alert.setTitle("Information Dialog");
-				alert.setHeaderText("The password has been changed");
-				alert.setContentText("Information updated successfully");
-				alert.showAndWait();
-				loadLogIn();
-			}
-
-
-		}else {
-			alert.setAlertType(AlertType.ERROR);
-			alert.setTitle("Error Dialog");
-			alert.setHeaderText("The current password is not correct");
-			alert.setContentText("Please verify this field");
+		if((oldPass.isEmpty())||(newPass.isEmpty())) {
+			alert.setAlertType(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("Please enter all information in the fields");
+			alert.setContentText("There are some fields empties.");
 			alert.showAndWait();
 		}
+		else {
 
+			if(password.equals(oldPass)) {
+				done = restaurant.changePassword(idR, newPass);
+				if(done) {
+					alert.setAlertType(AlertType.INFORMATION);
+					alert.setTitle("Information Dialog");
+					alert.setHeaderText("The password has been changed");
+					alert.setContentText("Information updated successfully");
+					alert.showAndWait();
+					loadLogIn();
+				}
+
+
+			}else {
+				alert.setAlertType(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("The current password is not correct");
+				alert.setContentText("Please verify this field");
+				alert.showAndWait();
+			}
+		}
 
 	}
 	@FXML
@@ -522,7 +531,6 @@ public class RestaurantGUI {
 		mainPane.setCenter(root);
 		mainStage.close();
 		mainStage.show();
-		showMeasureOptions();
 		showOptionIngredients2();
 	}
 
@@ -605,7 +613,7 @@ public class RestaurantGUI {
 			alert.showAndWait();
 		}
 		else {
-			if(cbIngredient2.getValue().isEmpty()||quantityCombo.getText().isEmpty()||cbMeasure.getValue().isEmpty()) {
+			if(cbIngredient2.getValue().isEmpty()||quantityCombo.getText().isEmpty()) {
 				alert.setAlertType(AlertType.ERROR);
 				alert.setTitle("Error Dialog");
 				alert.setHeaderText("There are spaces in blank");
@@ -615,8 +623,7 @@ public class RestaurantGUI {
 			else {
 				String ingredientC = cbIngredient2.getValue();
 				Double quantityC = Double.parseDouble(quantityCombo.getText());
-				String measureC = cbMeasure.getValue();
-				if(restaurant.addRecipe(name, ingredientC, quantityC, measureC)) {
+				if(restaurant.addRecipe(name, ingredientC, quantityC)) {
 					alert.setAlertType(AlertType.INFORMATION);
 					alert.setTitle("Confirmation");
 					alert.setHeaderText("Ingredient "+ingredientC+" added succesfully to "+name);
@@ -624,7 +631,6 @@ public class RestaurantGUI {
 					alert.showAndWait();	
 					cbIngredient2.setValue(null);
 					quantityCombo.setText("");
-					cbMeasure.setValue(null);
 				}
 				else {
 					alert.setAlertType(AlertType.WARNING);
@@ -651,7 +657,6 @@ public class RestaurantGUI {
 			txtPrice.setText("");
 			cbIngredient2.setValue(null);
 			quantityCombo.setText("");
-			cbMeasure.setValue(null);
 		}
 	}
 
@@ -685,7 +690,7 @@ public class RestaurantGUI {
 		});
 
 	}
-	
+
 	@FXML
 	public void addToOrder(ActionEvent event) {
 		boolean added = false;
@@ -696,18 +701,18 @@ public class RestaurantGUI {
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText("This combo has been added to the delivery");
 			alert.setContentText("You can continue adding combos");
-			combosBox.setValue("");
-			
-		}else {
+			alert.showAndWait();
+			combosBox.setValue(null);
+		}
+		else {
 			alert.setAlertType(AlertType.WARNING);
 			alert.setTitle("Warning Dialog");
 			alert.setHeaderText("This combo can not been added because the are not enought ingredients");
 			alert.setContentText("Please verify");
 			alert.showAndWait();
-			
 		}
-		
-		
+
+
 	}
 
 	@FXML
@@ -718,14 +723,15 @@ public class RestaurantGUI {
 			alert.setAlertType(AlertType.INFORMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText("This combo has been added from the delivery");
-			alert.setContentText("You can continue");			
+			alert.setContentText("You can continue");	
+			alert.showAndWait();
 		}
 
 	}
 
 	@FXML
 	public void finalizeDeliveryCreation(ActionEvent event) {
-		
+
 		int value= (int) Math.floor(Math.random()*1000+100);
 		deliveryCode="A00"+value;
 		System.out.print(deliveryCode);
@@ -736,11 +742,11 @@ public class RestaurantGUI {
 		alert.setTitle("Confirmation Dialog");
 		alert.setHeaderText("The delivery has been created successfully");
 		alert.setContentText("You can continue");
-		
+
 	}
-	
+
 	@FXML
-    public void changeState(ActionEvent event) throws IOException {
+	public void changeState(ActionEvent event) throws IOException {
 		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageDeliverys.fxml"));
 		fxmlLoader.setController(this);
 		Parent root= fxmlLoader.load();
@@ -755,9 +761,9 @@ public class RestaurantGUI {
 		deliveryCreated=false;
 		showOptionsCombos();
 		showOptionsStates();
-		
 
-    }
+
+	}
 	private void showOptionsCombos() {
 		ObservableList<String> items = FXCollections.observableArrayList();
 		for(int i=0;i<restaurant.getDeliveries().size();i++) {
@@ -769,9 +775,9 @@ public class RestaurantGUI {
 				setCbCode(cbDeliverys.getValue());
 			}       
 		});	
-		
+
 	}
-	
+
 	private void showOptionsStates() {
 		ObservableList<String> items = FXCollections.observableArrayList();
 		items.add("PENDIENTE");
@@ -783,7 +789,7 @@ public class RestaurantGUI {
 				setCbState(cbStates.getValue());
 			}       
 		});	
-		
+
 	}
 
 	@FXML
@@ -890,10 +896,10 @@ public class RestaurantGUI {
 	public void setCbState(String cbState) {
 		this.cbState = cbState;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }

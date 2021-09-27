@@ -23,12 +23,11 @@ public class Delivery implements Serializable {
 		this.code = code;
 		deliveryState = State.PENDIENTE;
 		order=new ArrayList<Dish>();
-		addOrder(newdish);
 		setDate(GregorianCalendar.getInstance());
 	}
 
-	public void addOrder(Dish newdish) {
-		order.add(newdish);
+	public void addOrder(List<Dish> newdish) {
+		order=newdish;
 	}
 	
 	public String getCode() {

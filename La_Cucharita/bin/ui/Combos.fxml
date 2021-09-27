@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightyellow;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightyellow;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="258.0" layoutY="50.0" text="Add Combo">
          <font>
@@ -37,15 +37,10 @@
       <TextField fx:id="quantityCombo" layoutX="301.0" layoutY="240.0" />
       <Label layoutX="110.0" layoutY="167.0" prefHeight="17.0" prefWidth="397.0" text="-------------------------------------------------------------------------------" />
       <ComboBox fx:id="cbIngredient2" layoutX="300.0" layoutY="198.0" prefWidth="150.0" />
-      <Button layoutX="268.0" layoutY="336.0" mnemonicParsing="false" onAction="#finishCreationCombo" text="Finish">
+      <Button layoutX="261.0" layoutY="318.0" mnemonicParsing="false" onAction="#finishCreationCombo" text="Finish">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>
-      <Label layoutX="142.0" layoutY="287.0" text="Measure">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font></Label>
-      <ComboBox fx:id="cbMeasure" layoutX="300.0" layoutY="284.0" prefWidth="150.0" />
       <TextField fx:id="comboName" layoutX="301.0" layoutY="97.0" />
       <Label layoutX="142.0" layoutY="138.0" text="Price">
          <font>

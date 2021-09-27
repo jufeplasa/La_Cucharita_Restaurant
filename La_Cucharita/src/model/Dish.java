@@ -12,6 +12,7 @@ public class Dish implements Serializable {
 	
 	private String name;
 	private double price;
+	private int ordened;
 	private String cost;
 	private String ingredients;
 	
@@ -23,6 +24,7 @@ public class Dish implements Serializable {
 		this.price = price;
 		cost="$ "+price;
 		ingredients="";
+		ordened=0;
 	}
 	
 	public boolean addRecipe(String ingredient, double quantity, String measure ) {
@@ -74,7 +76,18 @@ public class Dish implements Serializable {
 		ingredients+=recipe.get(i).getName()+" "+recipe.get(i).getQuantity()+"\n";
 		}
 	}
+
+	public int getOrdened() {
+		return ordened;
+	}
+
+	public void setOrdened(int ordened) {
+		this.ordened = ordened;
+	}
 	
-	
+	public String generateReport() {
+		return "The dish "+name+" was ordened "+ordened+" times, and it generates $"+(ordened*price);
+	}
+
 
 }
