@@ -10,6 +10,7 @@ public class Restaurant {
 	private List <Ingredient> ingredients;
 	private List<Dish> menu;
 	private List<Delivery> deliveries;
+	private Delivery actualDelivery = null;
 	
 	
 	
@@ -18,7 +19,6 @@ public class Restaurant {
 		ingredients= new ArrayList<Ingredient>();
 		menu = new ArrayList<Dish>();
 		deliveries = new ArrayList<Delivery>();
-		
 		ingredients.add(new Ingredient("Lentejas",800,"g"));
 		worker.add(new Employee("juan","contraseña","123456",LocalDate.of(2002, 03, 23)));
 	}
@@ -118,13 +118,81 @@ public class Restaurant {
 		return menu.get(position).addRecipe(ingredient, quantity, measure);
 	}
 	
-	public String addOrderToDelivery(String nameDish, String code) {
+	
+	public boolean searchCombo(String name) {
 		boolean found = false;
-		String message="";
-		Dish newdish = null;
+		boolean canAdd = false;
+		
+		Dish dish = null;
+		for(int i=0; i<menu.size() && !found; i++) {
+			if(name.equals(menu.get(i).getName())){
+				found = true;
+				dish = menu.get(i);
 				
-		message=findOrders(code);
-		return message;
+			}					
+		}
+		if(verifyAmount(dish)) {
+			canAdd = true;
+			actualDelivery.addOrder(dish);
+			
+		}else {
+			canAdd = false;
+		}
+		return canAdd;
+		
+	}
+	
+	public boolean verifyAmount(Dish comboName) {
+		
+		boolean done = true;
+		for(int i=0; i<comboName.getRecipe().size()&&done; i++) {
+			for(int j=0; j<ingredients.size(); j++) {
+				if((comboName.getRecipe().get(i).getName().equalsIgnoreCase(ingredients.get(j).getName()))){
+					double num = ((ingredients.get(i).getAmount())-(comboName.getRecipe().get(j).getAmount()));
+					if(num<0) {
+						done = false;
+
+					}else {
+						ingredients.get(i).setAmount((ingredients.get(i).getAmount())-(comboName.getRecipe().get(j).getAmount()));
+					}
+				}
+			}
+		}
+
+		return done;
+	}
+	
+	public boolean deleteComboFromDelivery(String name) {
+		boolean deleted = false;
+		boolean found = false;
+		Dish dish = null;
+		for(int i=0; i<menu.size() && !found; i++) {
+			if(name.equals(menu.get(i).getName())){
+				found = true;
+				dish = menu.get(i);
+			}		
+		}		
+		for(int i=0; i<dish.getRecipe().size()&&deleted; i++) {
+			for(int j=0; j<ingredients.size(); j++) {
+				if((dish.getRecipe().get(i).getName().equalsIgnoreCase(ingredients.get(j).getName()))){
+					ingredients.get(i).setAmount((ingredients.get(i).getAmount())+(dish.getRecipe().get(j).getAmount()));
+					deleted = true;		
+					
+				}
+			}
+		}
+
+		return deleted;
+		
+	}
+	
+	public int addToDelivery(int deliveryNum, String value) {		
+		int newNum = 0;
+		deliveries.add(deliveryNum, getActualDelivery());
+		deliveries.get(deliveryNum).setCode(value);
+		newNum++;
+		return newNum;
+		
 	}
 	
 	public String findOrders(String code) {
@@ -176,6 +244,15 @@ public class Restaurant {
 	public void setDeliveries(List<Delivery> deliveries) {
 		this.deliveries = deliveries;
 	}
+
+
+	public Delivery getActualDelivery() {
+		return actualDelivery;
+	}
+	
+	
+	
+	
 	
 	
 	

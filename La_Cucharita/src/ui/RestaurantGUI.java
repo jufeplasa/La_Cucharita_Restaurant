@@ -108,10 +108,10 @@ public class RestaurantGUI {
 	private TextField quantityCombo;
 
 	@FXML
-	private TextField currentPassword;
+	private PasswordField currentPassword;
 
 	@FXML
-	private TextField newPassword;
+	private PasswordField newPassword;
 
 	@FXML
 	private TableView<Dish> combosTable;
@@ -144,6 +144,8 @@ public class RestaurantGUI {
 	private String dishName;
 
 	String deliveryCode;
+	
+	private int deliveryNum = 0;
 
 	private boolean deliveryCreated;
 
@@ -306,7 +308,7 @@ public class RestaurantGUI {
 
 
 	@FXML
-	public void changePasswordMethod(ActionEvent event) {
+	public void changePasswordMethod(ActionEvent event) throws IOException {
 		Alert alert=new Alert(null);    	
 		String oldPass = currentPassword.getText();
 		String newPass = newPassword.getText();
@@ -319,6 +321,7 @@ public class RestaurantGUI {
 				alert.setHeaderText("The password has been changed");
 				alert.setContentText("Information updated successfully");
 				alert.showAndWait();
+				loadLogIn();
 			}
 
 
@@ -676,27 +679,53 @@ public class RestaurantGUI {
 	//private boolean deliveryCreated;
 	@FXML
 	public void addToOrder(ActionEvent event) {
-		String message="";
-		while(!deliveryCreated) {
-			 int value= (int) Math.floor(Math.random()*1000+100);
-			deliveryCode="A00"+value;
-			System.out.print(deliveryCode);
-			deliveryCreated=true;
+		boolean added = false;
+		Alert alert = new Alert(null);
+		added = restaurant.searchCombo(dishName);
+		if(added) {			
+			alert.setAlertType(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("This combo has been added to the delivery");
+			alert.setContentText("You can continue adding combos");
+		}else {
+			alert.setAlertType(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("This combo can not been added because the are not enought ingredients");
+			alert.setContentText("Please verify");
+			alert.showAndWait();
+			
 		}
-		message= restaurant.addOrderToDelivery(dishName, deliveryCode);
-
-		System.out.print(deliveryCode);
-		orderInformation.setText(message);
+		
+		
 	}
 
 	@FXML
 	public void deleteFromOrder(ActionEvent event) {
+		boolean deleted = restaurant.deleteComboFromDelivery(dishName);
+		Alert alert = new Alert(null);
+		if(deleted) {
+			alert.setAlertType(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("This combo has been added from the delivery");
+			alert.setContentText("You can continue");			
+		}
 
 	}
 
 	@FXML
 	public void finalizeDeliveryCreation(ActionEvent event) {
-
+		
+		int value= (int) Math.floor(Math.random()*1000+100);
+		deliveryCode="A00"+value;
+		System.out.print(deliveryCode);
+		deliveryCreated=true;	
+		deliveryNum = restaurant.addToDelivery(deliveryNum, deliveryCode);
+		Alert alert = new Alert(null);
+		alert.setAlertType(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("The delivery has been created successfully");
+		alert.setContentText("You can continue");
+		
 	}
 
 	public Stage getMainStage() {

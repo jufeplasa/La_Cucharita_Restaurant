@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="413.0" prefWidth="600.0" style="-fx-border-color: lightyellow; -fx-border-width: 5;">
          <children>
@@ -24,7 +24,7 @@
                   <Image url="@inventario.jpg" />
                </image>
             </ImageView>
-            <Label layoutX="204.0" layoutY="51.0" prefHeight="45.0" prefWidth="270.0" text="Manage Inventory">
+            <Label layoutX="166.0" layoutY="50.0" prefHeight="45.0" prefWidth="270.0" text="Manage Inventory">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
@@ -60,12 +60,15 @@
                   <ComboBox fx:id="cbIngredient" prefHeight="27.0" prefWidth="150.0" translateX="50.0" GridPane.columnIndex="2" />
                </children>
             </GridPane>
-            <HBox alignment="CENTER" layoutX="224.0" layoutY="269.0" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" layoutX="201.0" layoutY="268.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#addIngredient" prefHeight="32.0" prefWidth="80.0" text="Add" textFill="#0a0a0a">
                      <HBox.margin>
                         <Insets right="50.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#deleteIngredient" prefHeight="32.0" prefWidth="80.0" text="Delete" textFill="#0a0a0a" />
                </children>

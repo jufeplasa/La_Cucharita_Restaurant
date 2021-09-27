@@ -10,15 +10,14 @@ public class Delivery {
 	private List<Dish> order;
 	
 	private String code;
-	private int amount;
 	private Calendar date;
 	private State deliveryState;
 	
 	
+	
 	public Delivery(Dish newdish, String code) {
 		this.code = code;
-		/*this.amount = amount; 
-		this.deliveryState = deliveryState;*/
+		deliveryState = State.PENDIENTE;
 		order=new ArrayList<Dish>();
 		addOrder(newdish);
 		setDate(GregorianCalendar.getInstance());
@@ -36,18 +35,6 @@ public class Delivery {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
-
-	public int getAmount() {
-		return amount;
-	}
-
-
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-
-
 
 
 	public State getDeliveryState() {

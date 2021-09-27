@@ -7,23 +7,50 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightyellow;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="268.0" layoutY="52.0" text="Add Combo" />
-      <Label layoutX="153.0" layoutY="101.0" text="Name" />
-      <Label layoutX="143.0" layoutY="202.0" text="Ingredient" />
+      <Label layoutX="258.0" layoutY="50.0" text="Add Combo">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
+      <Label layoutX="142.0" layoutY="99.0" text="Name">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="143.0" layoutY="202.0" text="Ingredient">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
       <TextField fx:id="txtPrice" layoutX="300.0" layoutY="135.0" />
-      <Button layoutX="507.0" layoutY="122.0" mnemonicParsing="false" onAction="#createCombo" text="Create" />
-      <Button layoutX="494.0" layoutY="223.0" mnemonicParsing="false" onAction="#addIngredientsAndQuantity" text="Add" />
-      <Label layoutX="143.0" layoutY="252.0" text="Quantity" />
-      <TextField fx:id="quantityCombo" layoutX="300.0" layoutY="248.0" />
+      <Button layoutX="507.0" layoutY="122.0" mnemonicParsing="false" onAction="#createCombo" text="Create">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Button layoutX="507.0" layoutY="223.0" mnemonicParsing="false" onAction="#addIngredientsAndQuantity" text="Add">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Label layoutX="142.0" layoutY="243.0" text="Quantity">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <TextField fx:id="quantityCombo" layoutX="301.0" layoutY="240.0" />
       <Label layoutX="110.0" layoutY="167.0" prefHeight="17.0" prefWidth="397.0" text="-------------------------------------------------------------------------------" />
       <ComboBox fx:id="cbIngredient2" layoutX="300.0" layoutY="198.0" prefWidth="150.0" />
-      <Button layoutX="268.0" layoutY="336.0" mnemonicParsing="false" onAction="#finishCreationCombo" text="Finish" />
-      <Label layoutX="143.0" layoutY="288.0" text="Measure" />
+      <Button layoutX="268.0" layoutY="336.0" mnemonicParsing="false" onAction="#finishCreationCombo" text="Finish">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Label layoutX="142.0" layoutY="287.0" text="Measure">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
       <ComboBox fx:id="cbMeasure" layoutX="300.0" layoutY="284.0" prefWidth="150.0" />
       <TextField fx:id="comboName" layoutX="301.0" layoutY="97.0" />
-      <Label layoutX="150.0" layoutY="139.0" text="Price" />
+      <Label layoutX="142.0" layoutY="138.0" text="Price">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
       <Label layoutX="282.0" layoutY="138.0" text="\$">
          <font>
             <Font name="System Bold" size="14.0" />
