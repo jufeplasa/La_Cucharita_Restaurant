@@ -1,4 +1,5 @@
 package ui;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -253,7 +254,7 @@ public class RestaurantGUI {
 	}  
 
 	@FXML
-	public void createAnEmployee(ActionEvent event) {
+	public void createAnEmployee(ActionEvent event) throws FileNotFoundException, IOException {
 		Alert alert = new Alert(null);
 		String name=txtname.getText();
 		String id=txtId2.getText();

@@ -1,12 +1,16 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class Delivery {
+public class Delivery implements Serializable {
 	
+
+	private static final long serialVersionUID = 1L;
+
 	private List<Dish> order;
 	
 	private String code;
@@ -42,8 +46,21 @@ public class Delivery {
 	}
 
 
-	public void setDeliveryState(State deliveryState) {
-		this.deliveryState = deliveryState;
+	public void setDeliveryState(String deliveryState) {
+		switch (deliveryState) {
+
+		case "ENTREGADO":
+			this.deliveryState = State.ENTREGADO;
+			break;
+
+		case "EN_PROCESO":
+			this.deliveryState =State.EN_PROCESO;
+			break;
+
+		case "PENDIENTE":
+			this.deliveryState = State.PENDIENTE;
+			break;
+		}
 	}
 
 

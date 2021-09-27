@@ -1,8 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Employee {
+public class Employee implements Serializable {
+	
+
+	private static final long serialVersionUID = 1L;
+	private List<Delivery> request;
 	
 	private String name;
 	private String password;
@@ -14,6 +21,7 @@ public class Employee {
 		this.password=password;
 		this.id=id;
 		this.birthday=birthday;
+		request=new ArrayList<Delivery>();
 	}
 
 	public String getName() {
@@ -46,6 +54,16 @@ public class Employee {
 
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
+	}
+	
+	public String generateReport() {
+		int numDelivered=0;
+		for(int i=0;i<request.size();i++) {
+			if(request.get(i).getDeliveryState()==State.ENTREGADO) {
+				numDelivered++;
+			}
+		}
+		return"The employee "+name+" deliver "+numDelivered+" orders and generate $";
 	}
 	
 }
