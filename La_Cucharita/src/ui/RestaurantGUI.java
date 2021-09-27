@@ -161,8 +161,12 @@ public class RestaurantGUI {
 	private String cbState;
 
 
-	public RestaurantGUI() {
+	public RestaurantGUI() throws FileNotFoundException, ClassNotFoundException, IOException {
+		
 		restaurant= new Restaurant();
+		restaurant.loadEmployees();
+		restaurant.loadIngredients();
+		restaurant.loadDishes();
 	}
 
 	public void initializeTableViewEmployees() {
@@ -561,7 +565,7 @@ public class RestaurantGUI {
 
 
 	@FXML
-	public void createCombo(ActionEvent event) {
+	public void createCombo(ActionEvent event) throws FileNotFoundException, IOException {
 		String name = comboName.getText();
 		Alert alert = new Alert(null);
 		if(comboCreated) {

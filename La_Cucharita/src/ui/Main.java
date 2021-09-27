@@ -1,5 +1,8 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +13,7 @@ public class Main extends Application{
 	
 	private RestaurantGUI restaurantgui;
 	
-	public Main() {
+	public Main() throws FileNotFoundException, ClassNotFoundException, IOException {
 		restaurantgui = new RestaurantGUI();
 	}
 	public static void main(String [] args) {

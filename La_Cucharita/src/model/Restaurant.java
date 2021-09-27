@@ -197,7 +197,7 @@ public class Restaurant {
 		}
 	}
 	
-	public boolean createCombo(String name,double price ,boolean isAdded) {
+	public boolean createCombo(String name,double price ,boolean isAdded) throws FileNotFoundException, IOException {
 		for(int i=0; i<menu.size() && isAdded==false; i++) {
 			if(name.equals(menu.get(i).getName())){
 				isAdded = true;				
@@ -205,7 +205,7 @@ public class Restaurant {
 		}
 		if(isAdded==false) {
 			menu.add(new Dish(name, price));
-			
+			saveDishes();
 		}
 		return isAdded;
 		
