@@ -31,6 +31,7 @@
             <Menu mnemonicParsing="false" text="Delivery">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#createOrder" text="Create Order" />
+                  <MenuItem mnemonicParsing="false" onAction="#changeState" text="Change Delivery´s State" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Exit">

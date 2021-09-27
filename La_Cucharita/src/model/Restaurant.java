@@ -117,7 +117,7 @@ public class Restaurant {
 		FileWriter fw = new FileWriter(EMPLOYEES_REPORT, false);
 		for(int i=0; i<worker.size();i++) {
 			Employee myWorker= worker.get(i);
-			fw.write(myWorker.generateReport());
+			fw.write(myWorker.generateReport()+"\n");
 		}
 		fw.close();
 	}
@@ -313,6 +313,18 @@ public class Restaurant {
 			System.out.println(message);
 		}
 		return message;
+	}
+	
+	public boolean updateDeliveryState(String cbCode, String cbState) {
+		boolean update = false;
+		for(int i=0; i<deliveries.size(); i++) {
+			if(cbCode.equalsIgnoreCase(deliveries.get(i).getCode())){
+				deliveries.get(i).setDeliveryState(cbState);
+				update = true;
+			}
+		}
+		
+		return update;
 	}
 
 	public List<Employee> getWorker() {

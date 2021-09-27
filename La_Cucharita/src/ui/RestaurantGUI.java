@@ -149,6 +149,16 @@ public class RestaurantGUI {
 	private int deliveryNum = 0;
 
 	private boolean deliveryCreated;
+	
+	@FXML
+    private ComboBox<String> cbDeliverys;
+
+    @FXML
+    private ComboBox<String> cbStates;
+    
+    private String cbCode;
+    
+    private String cbState;
 
 
 	public RestaurantGUI() {
@@ -675,19 +685,19 @@ public class RestaurantGUI {
 		});
 
 	}
-	// private String dishName;
-
-	//private boolean deliveryCreated;
+	
 	@FXML
 	public void addToOrder(ActionEvent event) {
 		boolean added = false;
 		Alert alert = new Alert(null);
 		added = restaurant.searchCombo(dishName);
 		if(added) {			
-			alert.setAlertType(AlertType.CONFIRMATION);
+			alert.setAlertType(AlertType.INFORMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText("This combo has been added to the delivery");
 			alert.setContentText("You can continue adding combos");
+			combosBox.setValue("");
+			
 		}else {
 			alert.setAlertType(AlertType.WARNING);
 			alert.setTitle("Warning Dialog");
@@ -705,7 +715,7 @@ public class RestaurantGUI {
 		boolean deleted = restaurant.deleteComboFromDelivery(dishName);
 		Alert alert = new Alert(null);
 		if(deleted) {
-			alert.setAlertType(AlertType.CONFIRMATION);
+			alert.setAlertType(AlertType.INFORMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText("This combo has been added from the delivery");
 			alert.setContentText("You can continue");			
@@ -728,6 +738,70 @@ public class RestaurantGUI {
 		alert.setContentText("You can continue");
 		
 	}
+	
+	@FXML
+    public void changeState(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("ManageDeliverys.fxml"));
+		fxmlLoader.setController(this);
+		Parent root= fxmlLoader.load();
+		FXMLLoader fxmlLoader2= new FXMLLoader(getClass().getResource("OptionMenu.fxml"));
+		fxmlLoader2.setController(this);
+		Parent root2= fxmlLoader2.load();
+		mainPane.getChildren().clear();
+		mainPane.setTop(root2);
+		mainPane.setCenter(root);
+		mainStage.close();
+		mainStage.show();
+		deliveryCreated=false;
+		showOptionsCombos();
+		showOptionsStates();
+		
+
+    }
+	private void showOptionsCombos() {
+		ObservableList<String> items = FXCollections.observableArrayList();
+		for(int i=0;i<restaurant.getDeliveries().size();i++) {
+			items.add(restaurant.getDeliveries().get(i).getCode());
+		}
+		cbDeliverys.getItems().addAll(items);
+		cbDeliverys.setOnAction(new EventHandler<ActionEvent>() {     
+			public void handle(ActionEvent e)  {    
+				setCbCode(cbDeliverys.getValue());
+			}       
+		});	
+		
+	}
+	
+	private void showOptionsStates() {
+		ObservableList<String> items = FXCollections.observableArrayList();
+		items.add("PENDIENTE");
+		items.add("EN_PROCESO");
+		items.add("ENTREGADO");
+		cbStates.getItems().addAll(items);
+		cbStates.setOnAction(new EventHandler<ActionEvent>() {     
+			public void handle(ActionEvent e)  {    
+				setCbState(cbStates.getValue());
+			}       
+		});	
+		
+	}
+
+	@FXML
+	public void updateState(ActionEvent event) {
+		boolean update = false;
+		Alert alert = new Alert(null);
+		update = restaurant.updateDeliveryState(cbCode, cbState);
+		if(update) {
+			alert.setAlertType(AlertType.INFORMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("The state of this delivery has been updated");
+			alert.setContentText("You can continue");			
+		}
+		cbDeliverys.setValue("");
+		cbStates.setValue("");
+	}
+
+
 
 	public Stage getMainStage() {
 		return mainStage;
@@ -800,5 +874,26 @@ public class RestaurantGUI {
 	public void setDeliveryCreated(boolean deliveryCreated) {
 		this.deliveryCreated = deliveryCreated;
 	}
+
+	public String getCbCode() {
+		return cbCode;
+	}
+
+	public void setCbCode(String cbCode) {
+		this.cbCode = cbCode;
+	}
+
+	public String getCbState() {
+		return cbState;
+	}
+
+	public void setCbState(String cbState) {
+		this.cbState = cbState;
+	}
+	
+	
+	
+	
+	
 
 }
