@@ -34,7 +34,6 @@ public class Restaurant {
 		menu = new ArrayList<Dish>();
 		actualDelivery= new ArrayList<Dish>();
 		deliveries = new ArrayList<Delivery>();
-		ingredients.add(new Ingredient("Lentejas",800,"g"));
 		worker.add(new Employee("juan","contraseña","123456",LocalDate.of(2002, 03, 23)));
 	}
 
@@ -238,9 +237,9 @@ public class Restaurant {
 	}
 	
 	
-	public boolean searchCombo(String name) {
+	public String searchCombo(String name) {
 		boolean found = false;
-		boolean canAdd = false;
+		String canAdd = "";
 		
 		Dish dish=null;
 		for(int i=0; i<menu.size() && !found; i++) {
@@ -250,11 +249,11 @@ public class Restaurant {
 			}					
 		}
 		if(verifyAmount(dish)) {
-			canAdd = true;
-			actualDelivery.add(dish);
-			
-		}else {
-			canAdd = false;
+			canAdd = dish.getName()+"..........."+dish.getCost();
+			actualDelivery.add(dish);	
+		}
+		else {
+			canAdd = null;
 		}
 		return canAdd;
 		

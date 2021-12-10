@@ -142,12 +142,6 @@ public class RestaurantGUI {
 
 	private String password;
 
-	private String dishName;
-
-	String deliveryCode;
-
-	private int deliveryNum = 0;
-
 	private boolean deliveryCreated;
 
 	@FXML
@@ -689,7 +683,6 @@ public class RestaurantGUI {
 		combosBox.getItems().addAll(items);
 		combosBox.setOnAction(new EventHandler<ActionEvent>() {     
 			public void handle(ActionEvent e)  {    
-				setDishName(combosBox.getValue());
 			}       
 		});
 
@@ -697,15 +690,19 @@ public class RestaurantGUI {
 
 	@FXML
 	public void addToOrder(ActionEvent event) {
-		boolean added = false;
+		String added;
+		String message="";
 		Alert alert = new Alert(null);
-		added = restaurant.searchCombo(dishName);
-		if(added) {			
+		added = restaurant.searchCombo(combosBox.getValue());
+		if(added!=null) {			
 			alert.setAlertType(AlertType.INFORMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText("This combo has been added to the delivery");
 			alert.setContentText("You can continue adding combos");
 			alert.showAndWait();
+			message=orderInformation.getText()+"\n";
+			message+=added;
+			orderInformation.setText(message);
 			combosBox.setValue(null);
 		}
 		else {
@@ -721,31 +718,14 @@ public class RestaurantGUI {
 
 	@FXML
 	public void deleteFromOrder(ActionEvent event) {
-		boolean deleted = restaurant.deleteComboFromDelivery(dishName);
-		Alert alert = new Alert(null);
-		if(deleted) {
-			alert.setAlertType(AlertType.INFORMATION);
-			alert.setTitle("Confirmation Dialog");
-			alert.setHeaderText("This combo has been added from the delivery");
-			alert.setContentText("You can continue");	
-			alert.showAndWait();
-		}
+		
+	
 
 	}
 
 	@FXML
 	public void finalizeDeliveryCreation(ActionEvent event) {
 
-		int value= (int) Math.floor(Math.random()*1000+100);
-		deliveryCode="A00"+value;
-		System.out.print(deliveryCode);
-		deliveryCreated=true;	
-		deliveryNum = restaurant.addToDelivery(deliveryNum, deliveryCode);
-		Alert alert = new Alert(null);
-		alert.setAlertType(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("The delivery has been created successfully");
-		alert.setContentText("You can continue");
 
 	}
 
@@ -867,14 +847,6 @@ public class RestaurantGUI {
 
 	public void setComboSelect(String comboSelect) {
 		this.comboSelect = comboSelect;
-	}
-
-	public String getDishName() {
-		return dishName;
-	}
-
-	public void setDishName(String dishName) {
-		this.dishName = dishName;
 	}
 
 	public boolean isDeliveryCreated() {
