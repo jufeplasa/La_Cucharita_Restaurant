@@ -61,6 +61,19 @@ public class Delivery implements Serializable {
 			break;
 		}
 	}
+	
+	public void addDish(Dish dish) {
+		order.add(dish);
+	}
+	
+	public String showOrder() {
+		String message="";
+		
+		for(int i=0;i<order.size();i++) {
+			message+=order.get(i).getName()+"......  "+order.get(i).getCost();
+		}
+		return message;
+	}
 
 
 	public List<Dish> getOrder() {

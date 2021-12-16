@@ -236,10 +236,8 @@ public class Restaurant {
 		return menu.get(position).addRecipe(ingredient, quantity, measure);
 	}
 	
-	
-	public String searchCombo(String name) {
+	public Dish searchCombo(String name) {
 		boolean found = false;
-		String canAdd = "";
 		
 		Dish dish=null;
 		for(int i=0; i<menu.size() && !found; i++) {
@@ -248,14 +246,7 @@ public class Restaurant {
 				dish = menu.get(i);
 			}					
 		}
-		if(verifyAmount(dish)) {
-			canAdd = dish.getName()+"..........."+dish.getCost();
-			actualDelivery.add(dish);	
-		}
-		else {
-			canAdd = null;
-		}
-		return canAdd;
+		return dish;
 		
 	}
 	

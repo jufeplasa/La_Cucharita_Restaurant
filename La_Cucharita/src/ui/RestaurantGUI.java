@@ -690,7 +690,7 @@ public class RestaurantGUI {
 
 	@FXML
 	public void addToOrder(ActionEvent event) {
-		String added;
+		Dish added;
 		String message="";
 		Alert alert = new Alert(null);
 		added = restaurant.searchCombo(combosBox.getValue());
@@ -712,8 +712,6 @@ public class RestaurantGUI {
 			alert.setContentText("Please verify");
 			alert.showAndWait();
 		}
-
-
 	}
 
 	@FXML
